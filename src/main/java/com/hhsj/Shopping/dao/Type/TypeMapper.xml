@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhsj.Shopping.dao.Type.TypeMapper">
+    <!--查询商品类型-->
+    <select id="findType" parameterType="string" resultType="Type">
+        SELECT * FROM sp_type WHERE cid=#{cid}
+    </select>
+</mapper>

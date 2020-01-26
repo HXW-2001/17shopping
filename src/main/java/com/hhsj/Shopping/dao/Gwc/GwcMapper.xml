@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhsj.Shopping.dao.Gwc.GwcMapper">
+
+    <!--首页购物车商品信息查询-->
+    <select id="findGwc" parameterType="Gwc" resultType="Gwc">
+        SELECT id,user_id,xname,sp_id,city,cid,sml,CONCAT(NAME,' ',stype) AS NAME,CONCAT(bag,' ')AS bag,
+        vlp,number,CONCAT('[',stock,']')AS stock,city
+        ,CONCAT(mail,'： ￥',postage)AS mail,(vlp+postage)*number AS total,url,cid
+        FROM sp_gwc WHERE user_id=#{user_id}
+    </select>
+
+    <!--查询购物车商品总价-->
+    <select id="findGwcSum" parameterType="int" resultType="Gwc">
+        SELECT SUM((vlp+postage)) AS total,(SELECT SUM(postage) FROM sp_gwc WHERE user_id= #{user_id}) AS postage,vlp FROM  sp_gwc
+        WHERE user_id=#{user_id}
+    </select>
+
+    <!--购物车清单查询-->
+    <select id="findGwcQd" parameterType="Gwc" resultType="Gwc">
+        SELECT id,CONCAT(NAME,'、',stype,sml)AS NAME,stock,city,vlp,
+        number,(vlp+postage)*number AS total,url,sp_id,postage,bag,cid,order_id FROM sp_gwc
+        WHERE user_id=#{user_id} AND checkbox =#{checkbox}
+    </select>
+
+    <!--购物车清单查询-->
+    <select id="findGwcQd1" parameterType="Gwc" resultType="Gwc">
+        SELECT id,CONCAT(NAME,'、',stype,sml)AS NAME,stock,city,vlp,
+        number,(vlp+postage)*number AS total,url,sp_id,postage,bag,cid,order_id FROM sp_gwc
+        WHERE user_id=#{user_id}
+    </select>
+
+    <!--购物车收藏-->
+    <insert id="addGwc" parameterType="Gwc">
+        INSERT INTO sp_gwc (user_id,xname,sp_id,city,cid,`name`,stype,sml,bag,vlp,stock,`number`,postage,mail,distribution,url,order_id)
+        VALUES(#{user_id},#{xname},#{sp_id},#{city},#{cid},#{name},#{stype},#{sml},#{bag},#{vlp},#{stock},#{number},#{postage},#{mail},#{distribution},#{url},#{order_id})
+    </insert>
+
+    <!--购物车删除-->
+    <delete id="GwcDelete" parameterType="int">
+       DELETE FROM sp_gwc WHERE id=#{id}
+    </delete>
+
+    <!--总条数和总价钱-->
+    <select id="findCount" parameterType="user" resultType="GwcCustom">
+             SELECT COUNT(0) AS `count`,SUM((s.vlp+s.postage)* s.number) AS totals  FROM sp_gwc s,tb_user t WHERE s.user_id=t.id AND t.id=#{id}
+    </select>
+
+    <select id="findGwcCount" parameterType="int" resultType="GwcCustom">
+            SELECT SUM(s.number) AS `count`,SUM((s.vlp)*s.number) AS totals  FROM sp_gwc s,tb_user t WHERE s.user_id=t.id AND t.id=#{id}
+    </select>
+
+    <!--结算总价-->
+    <select id="count" parameterType="user" resultType="GwcCustom">
+        SELECT COUNT(0) AS `count`,SUM((s.vlp+s.postage)* s.number) AS totals,SUM(s.`postage`) AS postage,CONCAT(SUM((s.vlp+s.postage)* s.number)+SUM(s.`postage`)) AS zhongjia
+         FROM sp_gwc s,tb_user t
+        WHERE s.`user_id`=t.`id` AND  s.user_id=#{user_id} AND s.checkbox =#{checkbox}
+     </select>
+
+    <!--结算总价-->
+    <select id="count1" parameterType="user" resultType="GwcCustom">
+        SELECT COUNT(0) AS `count`,SUM((s.vlp+s.postage)* s.number) AS totals,SUM(s.`postage`) AS postage,CONCAT(SUM((s.vlp+s.postage)* s.number)+SUM(s.`postage`)) AS zhongjia
+        FROM sp_gwc s,tb_user t
+        WHERE s.`user_id`=t.`id` AND  s.user_id=#{user_id}
+    </select>
+
+
+    <!--购物车修改checkbox的值-->
+    <update id="Updatecheckbox" parameterType="Gwc">
+        UPDATE sp_gwc SET checkbox=#{checkbox} WHERE id=#{id}
+    </update>
+
+    <!--关系表添加-->
+    <insert id="addGl" parameterType="Gl">
+        INSERT INTO `sp_gl` VALUES(#{order_id},#{tb_did})
+    </insert>
+
+    <!--订单添加-->
+    <insert id="addCategory" parameterType="Commodity">
+        INSERT INTO tb_category(user_id,`name`,`number`,payment_id,total,sj,receiver_phone,receiver_address,`DATE`)
+        VALUES(#{user_id},#{name},#{number},#{payment_id},#{total},#{sj},#{receiver_phone},#{receiver_address},#{date})
+    </insert>
+
+    <select id="findId" resultType="int">
+        SELECT  MAX(`did`) FROM `tb_category`
+    </select>
+
+    <select id="findOrderId" resultType="int" parameterType="int">
+        SELECT `order_id` FROM `sp_gwc` WHERE `id` = #{id}
+    </select>
+
+    <!--购物车清空-->
+    <delete id="deleteGwc" parameterType="Gwc">
+        DELETE FROM sp_gwc WHERE user_id=#{user_id} AND  checkbox=#{checkbox}
+    </delete>
+
+    <!--购物车清空-->
+    <delete id="deleteGwc1" parameterType="Gwc">
+        DELETE FROM sp_gwc WHERE user_id=#{user_id} AND  checkbox=#{checkbox}
+    </delete>
+
+    <!--查询商品id-->
+    <select id="findOrder_id" resultType="int" parameterType="Gwc">
+        SELECT COUNT(0) FROM sp_gwc WHERE  order_id=#{order_id}
+     </select>
+
+    <!--修改商品数量-->
+    <update id="UpdateNumber" parameterType="Gwc">
+        UPDATE sp_gwc SET number=#{number} WHERE order_id=#{order_id}
+    </update>
+
+    <!--查询商品id-->
+    <select id="findNumber" resultType="Gwc" parameterType="Gwc">
+        SELECT number FROM sp_gwc WHERE  order_id=#{order_id}
+    </select>
+</mapper>

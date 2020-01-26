@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--<html xmlns="http://www.w3.org/1999/xhtml">-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>17商城</title>
+    <link type="text/css" href="css/css.css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/js.js"></script>
+</head>
+<body style=" background:#FFF;">
+<div class="loginLogo">
+    <div class="logoMid">
+        <h1 class="logo" style="height:71px;padding-top:10px;">
+            <a href="/login"><img src="images/loginLogo.jpg"
+                                  width="241" height="71"/></a>
+        </h1>
+        <div class="loginReg">
+            有会员账号?&nbsp;<a href="/login">登录</a>
+        </div><!--loginReg/-->
+    </div><!--logoMid/-->
+</div><!--loginLogo/-->
+<div class="loginBox">
+    <img src="images/chengnuo.jpg" width="295" height="393" class="chengnuo"/>
+    <form action="/Add" method="post" class="reg">
+        <div class="regList">
+            <label><span class="red">*</span> 账户名:</label>
+            <input type="text" name="username" id="name" th:value="${username}"/> <span style="color:#999;"></span>
+            <span id="ll" style="color: red;font-size: 14px;"></span>
+            <span id="ll5" style="color: red;font-size: 14px;"></span>
+            <span id="tishi" style="color: red;font-size: 14px;"></span>
+        </div><!--regList/-->
+        <div class="regList">
+            <label><span class="red">*</span> 请输入邮箱:</label>
+            <input type="email" name="email" id="email"/>
+            <span id="ll1" style="color: red;font-size: 14px;"></span>
+            <span id="youxiang" style="color: red;font-size: 14px;"></span>
+        </div><!--regList/-->
+        <div class="regList">
+            <label><span class="red">*</span> 请输入手机号:</label>
+            <input type="phone" name="phone" id="phone"/>
+            <span id="ll2" style="color: red;font-size: 14px;"></span>
+            <span id="66" style="color: red;font-size: 14px;"></span>
+        </div><!--regList/-->
+        <div class="regList">
+            <label><span class="red">*</span> 请设置密码:</label>
+            <input type="password" name="password" id="password"/>
+            <span id="ll3" style="color: red;font-size: 14px;"></span>
+            <span id="ll6" style="color: red;font-size: 14px;"></span>
+        </div><!--regList/-->
+        <div class="regList">
+            <label><span class="password">*</span> 请确认密码:</label>
+            <input type="password" name="password1" id="password1"/>
+            <span id="ll4" style="color: red;font-size: 14px;"></span>
+            <span id="ad1" style="color: red;font-size: 14px;"></span>
+            <span id="ad2" style="color: red;font-size: 14px;"></span>
+        </div><!--regList/-->
+        <div class="regList">
+            <label><span class="password">*</span> 输入验证码:</label>
+            <input type="text" name="Code" id="Code"/>
+            <span id="span" class="span"
+                  style="color: red;padding:5px 14px 10px 14px;font-size: 16px;background-color: #e5bcd4"></span>
+            <span id="yzm" style="color: red;font-size: 14px;"></span>
+        </div><!--regList/-->
+        <script type="text/javascript">
+        </script>
+        <div class="xieyi">
+            <input type="checkbox" name="checked" id="checked" value="1"/> 我已经阅读并同意<a href="#">《17用户注册协议》</a>
+        </div><!--xieyi/-->
+        <div class="xieyi">
+            <input type="submit" id="zc" value="注册" style="left: 125px"/>
+        </div><!--reg/-->
+    </form><!--reg/-->
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+    <span id="test" th:text="${test}" style="text-align: center;color: red;font-size: 18px"></span>
+    <div class="clears"></div>
+    <script type="text/javascript">
+        jQuery(function () {
+            jQuery("#username").click(function () {
+                jQuery("#ll").html(null);
+                jQuery("#ll1").html(null);
+                jQuery("#ll2").html(null);
+                jQuery("#ll3").html(null);
+                jQuery("#ll4").html(null);
+                jQuery("#ll6").html(null);
+                jQuery("#ll5").html(null);
+                jQuery("#66").html(null);
+                jQuery("#tishi").html(null);
+                jQuery("#ad1").html(null);
+                jQuery("#ad2").html(null);
+                jQuery("#yzm").html(null);
+                jQuery("#youxiang").html(null);
+                jQuery("#test").html(null);
+            });
+            jQuery("#email").click(function () {
+                jQuery("#ll").html(null);
+                jQuery("#ll1").html(null);
+                jQuery("#ll2").html(null);
+                jQuery("#ll3").html(null);
+                jQuery("#ll4").html(null);
+                jQuery("#ll6").html(null);
+                jQuery("#ll5").html(null);
+                jQuery("#66").html(null);
+                jQuery("#tishi").html(null);
+                jQuery("#yzm").html(null);
+                jQuery("#youxiang").html(null);
+                jQuery("#ad1").html(null);
+                jQuery("#ad2").html(null);
+                jQuery("#test").html(null);
+            });
+            jQuery("#phone").click(function () {
+                jQuery("#ll").html(null);
+                jQuery("#ll1").html(null);
+                jQuery("#ll2").html(null);
+                jQuery("#ll3").html(null);
+                jQuery("#ll4").html(null);
+                jQuery("#ll6").html(null);
+                jQuery("#ll5").html(null);
+                jQuery("#66").html(null);
+                jQuery("#tishi").html(null);
+                jQuery("#yzm").html(null);
+                jQuery("#youxiang").html(null);
+                jQuery("#ad1").html(null);
+                jQuery("#ad2").html(null);
+                jQuery("#test").html(null);
+            });
+            jQuery("#password").click(function () {
+                jQuery("#ll").html(null);
+                jQuery("#ll1").html(null);
+                jQuery("#ll2").html(null);
+                jQuery("#ll3").html(null);
+                jQuery("#ll4").html(null);
+                jQuery("#ll6").html(null);
+                jQuery("#ll5").html(null);
+                jQuery("#66").html(null);
+                jQuery("#tishi").html(null);
+                jQuery("#yzm").html(null);
+                jQuery("#youxiang").html(null);
+                jQuery("#ad1").html(null);
+                jQuery("#ad2").html(null);
+                jQuery("#test").html(null);
+            });
+            jQuery("#password1").click(function () {
+                jQuery("#ll").html(null);
+                jQuery("#ll1").html(null);
+                jQuery("#ll2").html(null);
+                jQuery("#ll3").html(null);
+                jQuery("#ll4").html(null);
+                jQuery("#ll6").html(null);
+                jQuery("#ll5").html(null);
+                jQuery("#66").html(null);
+                jQuery("#tishi").html(null);
+                jQuery("#yzm").html(null);
+                jQuery("#youxiang").html(null);
+                jQuery("#ad1").html(null);
+                jQuery("#ad2").html(null);
+                jQuery("#test").html(null);
+            });
+            jQuery("#checked").click(function () {
+                jQuery("#ll").html(null);
+                jQuery("#ll1").html(null);
+                jQuery("#ll2").html(null);
+                jQuery("#ll3").html(null);
+                jQuery("#ll4").html(null);
+                jQuery("#ll6").html(null);
+                jQuery("#ll5").html(null);
+                jQuery("#66").html(null);
+                jQuery("#tishi").html(null);
+                jQuery("#yzm").html(null);
+                jQuery("#youxiang").html(null);
+                jQuery("#ad1").html(null);
+                jQuery("#ad2").html(null);
+                jQuery("#test").html(null);
+            });
+            jQuery("#Code").click(function () {
+                jQuery("#ll").html(null);
+                jQuery("#ll1").html(null);
+                jQuery("#ll2").html(null);
+                jQuery("#ll3").html(null);
+                jQuery("#ll4").html(null);
+                jQuery("#ll6").html(null);
+                jQuery("#ll5").html(null);
+                jQuery("#66").html(null);
+                jQuery("#tishi").html(null);
+                jQuery("#yzm").html(null);
+                jQuery("#youxiang").html(null);
+                jQuery("#ad1").html(null);
+                jQuery("#ad2").html(null);
+                jQuery("#test").html(null);
+            });
+            jQuery("#email").click(function () {
+                jQuery("#ll").html(null);
+                jQuery("#ll1").html(null);
+                jQuery("#ll2").html(null);
+                jQuery("#ll3").html(null);
+                jQuery("#ll4").html(null);
+                jQuery("#ll6").html(null);
+                jQuery("#ll5").html(null);
+                jQuery("#66").html(null);
+                jQuery("#tishi").html(null);
+                jQuery("#yzm").html(null);
+                jQuery("#youxiang").html(null);
+                jQuery("#ad1").html(null);
+                jQuery("#ad2").html(null);
+                jQuery("#test").html(null);
+            });
+
+        })
+    </script>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    jQuery(function () {
+        $("#name").blur(function () {
+            var name = $(this).val();
+            if (name == null || name == '') {
+                $("#ll").html("用户名不能为空");
+                return false;
+            } else {
+                var json = {username: $(this).val()};
+                $.ajax({
+                    type: "GET",
+                    url: "SelectUser",
+                    data: json,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == 1) {
+                            $("#tishi").html("已存在用户");
+                            return false;
+                        } else {
+                            $("#tishi").html("");
+                            return true;
+                        }
+                    }
+                });
+            }
+        });
+        //获取验证码
+        var chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+        function generateMixed(n) {
+            var a = "";
+            for (var i = 0; i < n; i++) {
+                a += chars[Math.ceil(Math.random() * 35)];
+            }
+            return a;
+        }
+
+        //把验证码存入Span标签中
+        $("#span").html(generateMixed(5));
+
+
+        $("#email").blur(function () {
+            var Email = jQuery("#email").val();
+            //邮箱验证
+            var myreg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+            if (Email == null || Email == '') {
+                $("#ll1").html("邮箱不能为空");
+                return false;
+            } else {
+                if (!myreg.test(Email)) {
+                    $("#111").html(null);
+                    $("#youxiang").html("邮箱格式错误!");
+                    return false;
+                }
+            }
+        });
+
+        $("#phone").blur(function () {
+            var Phone = jQuery("#phone").val();
+            var re = /^1(3|4|5|7|8)\d{9}$/; //电话验证
+            if (Phone == null || Phone == '') {
+                $("#ll2").html("输入电话不为空!");
+                return false;
+            } else {
+                if (!re.test(Phone)) {
+                    $("#66").html("输入电话格式有误!");
+                    return false;
+                }
+            }
+        });
+        $("#password").blur(function () {
+            var Password = jQuery("#password").val();
+            var Password1 = jQuery("#password1").val();
+            if (Password == null || Password == '') {
+                jQuery("#ll3").html("输入密码不能为空");
+                return false;
+            } else {
+                if (Password.length < 6) {
+                    jQuery("#ll6").html("密码长度过短");
+                    return false;
+                }
+            }
+        });
+        $("#password1").blur(function () {
+            var Password = jQuery("#password").val();
+            var Password1 = jQuery("#password1").val();
+            if (Password1 == null || Password1 == '') {
+                jQuery("#ad1").html("输入密码不能为空");
+                return false;
+            } else {
+                if (Password1.length < 6) {
+                    jQuery("#ad2").html("密码长度过短");
+                    return false;
+                }
+                if (Password != Password1) {
+                    jQuery("#ll4").html("请确定输入两次密码正确");
+                    return false;
+                }
+            }
+        });
+        $("#Code").blur(function () {
+            var code = jQuery("#Code").val();
+            var span = jQuery("#span").text();//验证码
+            if (code == null || code == '') {
+                jQuery("#yzm").html("输入验证码不能为空");
+                return false;
+            } else {
+                if (code != span) {
+                    jQuery("#yzm").html("输入验证码有误");
+                    $("#span").html(generateMixed(5));
+                    return false;
+                }
+            }
+
+        });
+        $("#checked").blur(function () {
+            obj = document.getElementsByName("checked");//是否点击
+            check_val = [];
+            for (k in obj) {
+                if (obj[k].checked)
+                    check_val.push(obj[k].value);
+            }
+            if (check_val == 0) {
+                jQuery("#ll5").html("请同意用户协议");
+                return false;
+            }
+        });
+    });
+</script>

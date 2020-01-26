@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>17商城</title>
+    <link type="text/css" href="css/css.css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/js.js"></script>
+    <input type="hidden" th:value="${name}" id="names"/>
+    <script type="text/javascript">
+        $(function () {
+            var names = $("#names").val();
+            var pageNum = $("#pageNum").html();
+            var totalPageCount = $("#totalPageCount").html();
+            $("#index").click(function () {
+                window.location = "/findBeizhi?name=" + names;
+            });
+            $("#top").click(function () {
+                window.location = "/findBeizhi?pageNum=" + parseInt(pageNum - 1) + "&name=" + names;
+            });
+            $("#bottom").click(function () {
+                window.location = "/findBeizhi?pageNum=" + (parseInt(pageNum) + 1) + "&name=" + names;
+            });
+            $("#off").click(function () {
+                window.location = "/findBeizhi?pageNum=" + totalPageCount + "&name=" + names;
+            });
+            if (pageNum <= 1) {
+                $("#index").attr("disabled", "disabled");
+                $("#bottom").removeAttr("disabled", "disabled");
+                $("#top").attr("disabled", "disabled");
+                $("#off").removeAttr("disabled", "disabled");
+            } else if (pageNum >= totalPageCount) {
+                $("#index").removeAttr("disabled", "disabled");
+                $("#bottom").attr("disabled", "disabled");
+                $("#top").removeAttr("disabled", "disabled");
+                $("#off").attr("disabled", "disabled");
+            }
+        });
+    </script>
+</head>
+
+<body>
+<div class="mianCont">
+    <div class="top">
+        <span th:text="'您好：'+${session.login.getUsername()+' 欢迎来到17商城'}"></span>&nbsp;&nbsp; <strong class="red"><a href="/login" style="color:red">[退出]</a></strong>
+   <span class="topRight">
+    <input type="hidden" th:value="${session.login.getId()}"/><a href="javascript:void(0)" id="Dindan">我的订单</a>&nbsp;|
+    <a th:href="@{/findUserByid(id=${session.login.getId()})}">会员中心</a>&nbsp;|
+    <a href="/contact">联系我们</a>
+   </span>
+    </div><!--top/-->
+    <div class="lsg">
+        <h1 class="logo"><a href="/main"><img src="images/logo.png" width="217" height="90"/></a></h1>
+        <form action="/findShangPing" method="post" class="subBox">
+            <div class="subBoxDiv">
+                <input type="text" class="subLeft"/>
+                <input type="image" src="images/subimg.png" width="63" height="34" class="sub"/>
+                <div class="hotWord">
+                    热门搜索：
+                    <input type="hidden" value="杯"/><a href="javascript:void(0)" id="zhibei8">杯子</a> &nbsp;
+                    <input type="hidden" value="餐"/><a href="javascript:void(0)" id="zhibei9">餐具</a> &nbsp;
+                    <input type="hidden" value="纸"/><a href="javascript:void(0)" id="zhibei10">纸类</a> &nbsp;
+                    <input type="hidden" value="纸碟"/><a href="javascript:void(0)" id="zhibei11">纸碟</a> &nbsp;
+                </div><!--hotWord/-->
+            </div><!--subBoxDiv/-->
+        </form><!--subBox/-->
+        <div class="gouwuche">
+            <div class="gouCar">
+                <th:if th:if="${session.gwcCustom!=null}">
+                    <div class="gouCar">
+                        <img src="images/gouimg.png" width="19" height="20" style="position:relative;top:6px;"/>&nbsp;
+                        <strong class="red" th:text="${session.gwcCustom.count}">0</strong>&nbsp;件&nbsp;
+                        <a th:href="@{/findGwc(user_id=${session.login.getId()})}">购物车</a>
+                        <strong class="red" th:text="${session.gwcCustom.totals}"> ￥0.0</strong>
+                        <a th:href="@{/findGwcQd1(user_id=${session.login.getId()})}">去结算</a>
+                    </div>
+                </th:if>
+                <th:if th:if="${session.gwcCustom==null}">
+                    <div class="gouCar">
+                        <img src="images/gouimg.png" width="19" height="20" style="position:relative;top:6px;"/>&nbsp;
+                        <strong class="red">0</strong>&nbsp;件&nbsp;
+                        <a href="javascript:void(0)">购物车</a>
+                        <strong class="red"> ￥0.0</strong>
+                        <a href="javascript:void(0)">去结算</a>
+                    </div>
+                </th:if>
+            </div><!--gouCar/-->
+            <div class="myChunlv">
+                <a th:href="@{/findUserByid(id=${session.login.getId()})}">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img
+                        src="images/mychunlv.jpg" width="112" height="34"/></a>
+            </div><!--myChunlv/-->
+        </div><!--gouwuche/-->
+    </div><!--lsg/-->
+    <div class="pnt">
+        <div class="pntLeft">
+            <h2 class="Title">所有商品分类
+            </h2>
+        </div><!--pntLeft/-->
+        <div class="pntRight">
+            <ul class="nav">
+                <li class="navCur"><a href="/main">商城首页</a></li>
+                <li><a href="/findAgent">促销中心</a></li>
+                <li><a th:href="@{/findUserByid(id=${session.login.getId()})}">会员中心</a></li>
+                <li><a href="/help">帮助中心</a></li>
+                <div class="clears"></div>
+                <div class="phone">TEL：021-12345678</div>
+            </ul><!--nav/-->
+        </div><!--pntRight/-->
+        <div class="clears"></div>
+    </div><!--pnt/-->
+    <div class="positions">
+        当前位置：<a href="/main">首页</a> &gt;
+        <a th:href="@{/findUserByid(id=${session.login.getId()})}">会员中心</a>
+        &gt; <a th:href="@{/findCommodity1(user_id=${session.login.getId()})}">我的订单</a>
+    </div><!--positions/-->
+    <div class="cont">
+        <div class="contLeft" id="contLeft">
+            <h3 class="leftTitle">会员中心</h3>
+            <dl class="helpNav vipNav">
+                <dt>我的主页</dt>
+                <dd>
+                    <a class="vipCur" th:href="@{/findUserByid(id=${session.login.getId()})}">个人中心</a>
+                    <a th:href="@{/findCommodity1(user_id=${session.login.getId()})}">我的订单</a>
+                </dd>
+                <dt>账户设置</dt>
+                <dd>
+                    <a th:href="@{/findUserPerson(id=${session.login.getId()})}">个人信息</a>
+                    <a th:href="@{/UserPassword}">密码修改</a>
+                    <a th:href="@{/findAddress(id=${session.login.getId()})}">收货地址</a>
+                </dd>
+                <dt>客户服务</dt>
+                <dd>
+                    <a th:href="@{/Exit}">网站使用条款</a>
+                    <a th:href="@{/Tuihuo}">网站免责声明</a>
+                </dd>
+            </dl><!--helpNav/-->
+        </div><!--contLeft/-->
+        <div class="contRight">
+            <h2 class="oredrName">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong
+                    style="color: red;font-size: 18px">修改密码</strong>
+            </h2>
+            <form th:action="@{/UpdatePw}" method="post">
+                <div class="address" style="display:block">
+                    <input type="hidden" name="id" id="id" th:value="${session.login.getId()}"/>
+                    <input type="hidden" name="passwords" id="UserPassword"
+                           th:value="${session.login.getPassword()}"/>
+                    <div class="addList">
+                        <label>原密码:</label>
+                        <input type="password" id="Oldpassword" name="Oldpassword"/>
+                        <span id="ll" style="color: red;font-size: 14px;"></span>
+                        <span id="l6" style="color: red;font-size: 14px;"></span>
+                    </div><!--addList-->
+                    <div class="addList">
+                        <label>新密码:</label>
+                        <input type="password" class="vipPwd1" id="password" name="password"/>
+                        <span id="l2" style="color: red;font-size: 14px;"></span>
+                        <span id="l4" style="color: red;font-size: 14px;"></span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span id="test" th:text="${test}" style="text-align: center;color: red;font-size: 18px"></span>
+                    </div><!--addList-->
+                    <div class="addList">
+                        <label>确认密码:</label>
+                        <input type="password" class="vipPwd2" id="password2" name="password2"/>
+                        <span id="l3" style="color: red;font-size: 14px;"></span>
+                        <span id="l5" style="color: red;font-size: 14px;"></span>
+                    </div><!--addList-->
+                    <div class="addList2">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input id="commit" type="submit" value="提交" width="79" height="30" class="vipSub"/>
+                    </div><!--addList2/-->
+                </div><!--address/-->
+            </form>
+        </div><!--contRight/-->
+        <div class="clears"></div>
+    </div><!--cont/-->
+    <div class="inHelp">
+        <div class="inHLeft">
+            <h4>帮助中心</h4>
+            <ul class="inHeList">
+                <li><a href="/help">购物指南</a></li>
+                <li><a href="/help">支付方式</a></li>
+                <li><a href="/help">售后服务</a></li>
+                <li><a href="/about">企业简介</a></li>
+                <div class="clears"></div>
+            </ul><!--inHeList/-->
+        </div><!--inHLeft/-->
+        <div class="inHLeft">
+            <h4>会员服务</h4>
+            <ul class="inHeList">
+                <li><a href="/reg">会员注册</a></li>
+                <li><a href="/login">会员登录</a></li>
+                <li><a th:href="@{/findGwc(user_id=${session.login.getId()})}">购物车</a></li>
+                <li><input type="hidden" th:value="${session.login.getId()}"/><a href="javascript:void(0)" id="Dindan1">我的订单</a>
+                    <div class="clears"></div>
+            </ul><!--inHeList/-->
+        </div><!--inHLeft/-->
+        <div class="inHRight">
+            <h4>全国统一免费服务热线</h4>
+            <div class="telBox">400-0000-0000</div>
+            <div class="weibo">
+                <wb:follow-button uid="2991975565" type="red_1" width="67" height="24"></wb:follow-button>
+            </div>
+        </div><!--inHRight/-->
+        <div class="clears"></div>
+    </div><!--inHelp/-->
+    <div class="footer">
+        <p>
+            <a href="#">进入17官网</a>&nbsp;|&nbsp;
+            <a href="../index.html">商城首页</a>&nbsp;|&nbsp;
+            <a href="../Business/product.html">促销中心</a>&nbsp;|&nbsp;
+            <a href="../Business/order.html">我的订单</a>&nbsp;|&nbsp;
+            <a href="new.html">新闻动态</a>&nbsp;|&nbsp;
+            <a href="../login.html">会员中心</a>&nbsp;|&nbsp;
+            <a href="help.htmll">帮助中心</a>
+        </p>
+        <p>
+            版权所有：南昌17实业有限公司 版权所有 夏天南、黄熊伟 <a href="http://www.mycodes.net/"
+                                            target="_blank"></a>
+        </p>
+    </div><!--footer/-->
+</div><!--mianCont/-->
+<a href="#" class="backTop">&nbsp;</a>
+</body>
+<script type="text/javascript">
+    jQuery(function () {
+        jQuery("#commit").click(function () {
+            var UserPassword = jQuery("#UserPassword").val();//登陆密码
+            var Oldpasswords = jQuery("#Oldpassword").val();//旧密码
+            var passwords = jQuery("#password").val();//新密码
+            var password2s = jQuery("#password2").val();//确定密码
+
+            if (Oldpasswords == null || Oldpasswords == '') {
+                jQuery("#ll").html("旧密码不能为空!");
+                return false;
+            } else if (Oldpasswords != UserPassword) {
+                jQuery("#l6").html("原密码不同请重新输入！");
+                return false;
+            } else if (Oldpasswords == passwords) {
+                jQuery("#l4").html("新密码不能和旧密码一致！");
+                return false;
+            } else if (password2s == null || password2s == '') {
+                jQuery("#l3").html("确定密码不能为空");
+                return false;
+            } else if (passwords == null || passwords == '') {
+                jQuery("#l2").html("新密码不能为空!");
+                return false;
+            } else if (passwords != password2s) {
+                jQuery("#l5").html("确保两次新密码一致！");
+                return false;
+            } else {
+                return true;
+            }
+        });
+        jQuery(function () { //点击下一个标签隐藏提示信息
+            jQuery("#password").click(function () {
+                jQuery("#ll").html(null);
+                jQuery("#l2").html(null);
+                jQuery("#l3").html(null);
+                jQuery("#l4").html(null);
+                jQuery("#l5").html(null);
+                jQuery("#l6").html(null);
+            })
+            jQuery("#password2").click(function () {
+                jQuery("#ll").html(null);
+                jQuery("#l2").html(null);
+                jQuery("#l3").html(null);
+                jQuery("#l4").html(null);
+                jQuery("#l5").html(null);
+                jQuery("#l6").html(null);
+            })
+            jQuery("#password2").click(function () {
+                jQuery("#ll").html(null);
+                jQuery("#l2").html(null);
+                jQuery("#l3").html(null);
+                jQuery("#l4").html(null);
+                jQuery("#l5").html(null);
+                jQuery("#l6").html(null);
+            })
+            jQuery("#password").click(function () {
+                jQuery("#ll").html(null);
+                jQuery("#l2").html(null);
+                jQuery("#l3").html(null);
+                jQuery("#l4").html(null);
+                jQuery("#l5").html(null);
+                jQuery("#l6").html(null);
+                ;
+            })
+            jQuery("#password1").click(function () {
+                jQuery("#ll").html(null);
+                jQuery("#l2").html(null);
+                jQuery("#l3").html(null);
+                jQuery("#l4").html(null);
+                jQuery("#l5").html(null);
+                jQuery("#l6").html(null);
+            })
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $("#zhibei").click(function () {
+            var zhibei = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei + "&pageNum=" + 1;
+        });
+        $("#zhibei1").click(function () {
+            var zhibei1 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei1 + "&pageNum=" + 1;
+        });
+        $("#zhibei2").click(function () {
+            var zhibei2 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei2 + "&pageNum=" + 1;
+        });
+        $("#zhibei3").click(function () {
+            var zhibei3 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei3 + "&pageNum=" + 1;
+        });
+        $("#zhibei4").click(function () {
+            var zhibei4 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei4 + "&pageNum=" + 1;
+        });
+        $("#zhibei5" +
+                "").click(function () {
+            var zhibei5 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei5 + "&pageNum=" + 1;
+        });
+        $("#zhibei6").click(function () {
+            var zhibei6 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei6 + "&pageNum=" + 1;
+        });
+        $("#zhibei7").click(function () {
+            var zhibei7 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei7 + "&pageNum=" + 1;
+        });
+        $("#zhibei8").click(function () {
+            var zhibei8 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei8 + "&pageNum=" + 1;
+        });
+        $("#zhibei9").click(function () {
+            var zhibei9 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei9 + "&pageNum=" + 1;
+        });
+        $("#zhibei10").click(function () {
+            var zhibei10 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei10 + "&pageNum=" + 1;
+        });
+        $("#zhibei11").click(function () {
+            var zhibei11 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei11 + "&pageNum=" + 1;
+        });
+        $("#Dindan").click(function () {
+            var Dindan = $(this).prev().val();
+            window.location = "/findCommodity?user_id=" + Dindan + "&pageNum=" + 1;
+        });
+        $("#Dindan1").click(function () {
+            var Dindan1 = $(this).prev().val();
+            window.location = "/findCommodity?user_id=" + Dindan1 + "&pageNum=" + 1;
+        });
+
+        var names = $("#names").val();
+        var pageNum = $("#pageNum").html();
+        var totalPageCount = $("#totalPageCount").html();
+        $("#index").click(function () {
+            window.location = "/findBeizhi?name=" + names;
+        });
+        $("#top").click(function () {
+            window.location = "/findBeizhi?pageNum=" + parseInt(pageNum - 1) + "&name=" + names;
+        });
+        $("#bottom").click(function () {
+            window.location = "/findBeizhi?pageNum=" + (parseInt(pageNum) + 1) + "&name=" + names;
+        });
+        $("#off").click(function () {
+            window.location = "/findBeizhi?pageNum=" + totalPageCount + "&name=" + names;
+        });
+        if (pageNum <= 1) {
+            $("#index").attr("disabled", "disabled");
+            $("#bottom").removeAttr("disabled", "disabled");
+            $("#top").attr("disabled", "disabled");
+            $("#off").removeAttr("disabled", "disabled");
+        } else if (pageNum >= totalPageCount) {
+            $("#index").removeAttr("disabled", "disabled");
+            $("#bottom").attr("disabled", "disabled");
+            $("#top").removeAttr("disabled", "disabled");
+            $("#off").attr("disabled", "disabled");
+        }
+
+    });
+</script>
+</html>

@@ -1,0 +1,70 @@
+<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>17商城</title>
+    <link type="text/css" href="../css/css.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/js.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#name").blur(function () {
+                var name = jQuery("#name").val();
+                $.ajax({
+                    type: "GET",
+                    url: "SelectUser",
+                    data: {username: name},
+                    dataType: "json",//ajax接口（请求url）返回的数据类型
+                    success: function (data) {
+                        //代表有东西
+                        if (data != 0) {
+                            //   显示的红字
+                        } else {
+                            jQuery("#tishi").html("不存在用户");
+                            $(".pwd").click(function () {
+                                $("#tishi").html(null);
+                            });
+                            $(".name").click(function () {
+                                $("#tishi").html(null);
+                            });
+                        }
+                    },
+                    error: function (data) {
+
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body style=" background:#FFF;">
+<div class="loginLogo">
+    <div class="logoMid">
+        <h1 class="logo" style="height:71px;padding-top:10px;"><a href="/login">
+            <img src="../images/loginLogo.jpg" width="241" height="71" alt="没有图片404"/></a>
+        </h1>
+        <div class="loginReg">
+            还没有会员账号?&nbsp;<a href="/reg">免费注册</a>
+            后台管理员&nbsp;<a href="/backstage">登录</a>
+        </div><!--loginReg/-->
+    </div><!--logoMid/-->
+</div><!--loginLogo/-->
+<div class="loginBox">
+    <div class="loginLeft">
+        <img src="images/logoinimg.jpg" width="716" height="376"/>
+    </div><!--loginLeft/-->
+    <form action="/login" method="post" class="loginRight">
+        <h2>会员登录</h2>
+        <h3>用户名</h3>
+        <input type="text" id="name" name="username" class="name"/>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span id="tishi" style="font-size: 12px;color: red;"></span>
+        <h3>密码</h3>
+        <input type="password" name="password" class="pwd"/>
+        <div class="subs">
+            <input type="image" src="images/sub.jpg" class="submit"/>
+        </div>
+    </form><!--loginRight/-->
+    <div class="clears"></div>
+</div><!--loginBox/-->
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:wb="">
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="Backstage/js/html5.js"></script>
+    <script type="text/javascript" src="Backstage/js/respond.min.js"></script>
+    <script type="text/javascript" src="Backstage/js/PIE_IE678.js"></script>
+    <![endif]-->
+    <link href="Backstage/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="Backstage/css/style.css"/>
+    <link href="Backstage/assets/css/codemirror.css" rel="stylesheet">
+    <link rel="stylesheet" href="Backstage/assets/css/ace.min.css"/>
+    <link rel="stylesheet" href="Backstage/Widget/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <link rel="stylesheet" href="Backstage/assets/css/font-awesome.min.css"/>
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="Backstage/assets/css/font-awesome-ie7.min.css"/>
+    <![endif]-->
+    <link href="Backstage/Widget/icheck/icheck.css" rel="stylesheet" type="text/css"/>
+    <link href="Backstage/Widget/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css"/>
+
+    <title>新增图片</title>
+</head>
+<body>
+<div class="page_right_style">
+    </br>
+    <h3> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        修改商品信息</h3>
+    </br>
+    <form th:action="@{/OrderUpdate(id=${selectOrderById.id})}" method="post" class="form form-horizontal" id="form-article-add"
+          enctype="multipart/form-data">
+        <div class=" clearfix cl">
+            <div class="Add_p_s">
+                <label class="form-label col-2">商品编号：</label>
+                <div class="formControls col-2"><input type="text" class="input-text"
+                                                       th:value="${selectOrderById.sp_id}" placeholder="" id=""
+                                                       name="sp_id"></div>
+            </div>
+            <div class="Add_p_s">
+                <label class="form-label col-2">商品名称：</label>
+                <div class="formControls col-2"><input type="text" class="input-text" th:value="${selectOrderById.name}"
+                                                       placeholder="" id=""
+                                                       name="name"></div>
+            </div>
+            <div class="Add_p_s">
+                <label class="form-label col-2">商品：</label>
+                <div class="formControls col-2"><input type="text" class="input-text"
+                                                       th:value="${selectOrderById.stype}" placeholder="" id=""
+                                                       name="stype">
+                </div>
+            </div>
+            <div class="Add_p_s">
+                <label class="form-label col-2">商品价格：</label>
+                <div class="formControls col-2"><input type="text" class="input-text" th:value="${selectOrderById.vlp}"
+                                                       placeholder="" id=""
+                                                       name="vlp">元
+                </div>
+            </div>
+            <div class="Add_p_s">
+                <label class="form-label col-2">商品单位：</label>
+                <div class="formControls col-2"><span class="select-box">
+				<select class="select" name="bag">
+                    <option th:text="${selectOrderById.bag}">请选择</option>
+                    <option value="10只/袋">10只/袋</option>
+                    <option value="20只/袋">20只/袋</option>
+                    <option value="10个/盒">10个/盒</option>
+                    <option value="5个/盒">5个/盒</option>
+                    <option value="5个/箱">5个/箱</option>
+                    <option value="10个/箱">5个/箱</option>
+                    <option value="4把/套">4把/套</option>
+                    <option value="8把/套">4把/套</option>
+                    <option value="10双/箱">10双/箱</option>
+                </select>
+				</span></div>
+            </div>
+            <div class="Add_p_s">
+                <label class="form-label col-2">商品类型：</label>
+                <div class="formControls col-2"><span class="select-box">
+				<select class="select" name="cid">
+                    <option th:if="${selectOrderById.cid==a}">单层纸杯</option>
+                    <option th:if="${selectOrderById.cid==b}">双层纸杯</option>
+                    <option th:if="${selectOrderById.cid==c}">瓦楞纸杯</option>
+                    <option th:if="${selectOrderById.cid==d}">PET透明杯</option>
+                    <option th:if="${selectOrderById.cid==e}">冰淇淋杯</option>
+                    <option th:if="${selectOrderById.cid==f}">蛋糕用具</option>
+                    <option th:if="${selectOrderById.cid==g}">沙拉用具</option>
+                    <option th:if="${selectOrderById.cid==h}">西餐用具</option>
+                    <option th:if="${selectOrderById.cid==i}">中餐用具</option>
+                    <option th:if="${selectOrderById.cid==j}">外带打包</option>
+                    <option th:if="${selectOrderById.cid==k}">纸碟</option>
+                    <option th:if="${selectOrderById.cid==l}">纸袋</option>
+                    <option th:if="${selectOrderById.cid==m}">纸碗</option>
+                    <option th:if="${selectOrderById.cid==o}">外带打包带</option>
+                    <option th:if="${selectOrderById.cid==n}">食品袋</option>
+                    <option value="a">单层纸杯</option>
+                    <option value="b">双层纸杯</option>
+                    <option value="c">瓦楞纸杯</option>
+                    <option value="d">PET透明杯</option>
+                    <option value="e">冰淇淋杯</option>
+                    <option value="f">蛋糕用具</option>
+                    <option value="g">沙拉用具</option>
+                    <option value="h">西餐用具</option>
+                    <option value="i">中餐用具</option>
+                    <option value="j">外带打包</option>
+                    <option value="k">纸碟</option>
+                    <option value="l">纸袋</option>
+                    <option value="m">纸碗</option>
+                    <option value="o">外带打包</option>
+                    <option value="n">食品袋</option>
+                </select>
+				</span></div>
+            </div>
+            <div class="Add_p_s">
+                <label class="form-label col-2">出发城市：</label>
+                <div class="formControls col-2"><span class="select-box">
+				<select class="select" name="city">
+                    <option  th:text="${selectOrderById.city}">请选择</option>
+                    <option value="北京">北京</option>
+                    <option value="广州">广州</option>
+                    <option value="上海">上海</option>
+                    <option value="深圳">深圳</option>
+                    <option value="天津">天津</option>
+                    <option value="四川">四川</option>
+                    <option value="重庆">重庆</option>
+                    <option value="广西">广西</option>
+                    <option value="广东">广东</option>
+                    <option value="云南">云南</option>
+                    <option value="贵州">贵州</option>
+                    <option value="河南">河南</option>
+                    <option value="湖北">湖北</option>
+                    <option value="湖南">湖南</option>
+                </select>
+				</span></div>
+            </div>
+            <div class="Add_p_s">
+                <label class="form-label col-2">是否包邮：</label>
+                <div class="formControls col-2"><span class="select-box">
+				<select class="select" name="mail">
+                    <option  th:text="${selectOrderById.mail}">请选择</option>
+                    <option value="包邮">包邮</option>
+                    <option value="不包邮">不包邮</option>
+                </select>
+				</span></div>
+            </div>
+            <div class="Add_p_s">
+                <label class="form-label col-2">快递公司：</label>
+                <div class="formControls col-2"><span class="select-box">
+				<select class="select" name="distribution">
+                    <option  th:text="${selectOrderById.distribution}">请选择</option>
+                    <option value="京东公司">京东公司</option>
+                    <option value="圆通公司">圆通公司</option>
+                    <option value="申通公司">申通公司</option>
+                    <option value="天天快递">天天快递</option>
+                    <option value="顺丰快递">顺丰快递</option>
+                    <option value="邮政快递">邮政快递</option>
+                </select>
+				</span></div>
+            </div>
+            <div class="Add_p_s">
+                <label class="form-label col-2">是否有货：</label>
+                <div class="formControls col-2"><span class="select-box">
+				<select class="select" name="stock">
+                    <option th:text="${selectOrderById.stock}">请选择</option>
+                    <option value="有货">有货</option>
+                    <option value="无货">无货</option>
+                </select>
+				</span></div>
+            </div>
+            <div class="Add_p_s">
+                <label class="form-label col-2">商品容量：</label>
+                <div class="formControls col-2"><span class="select-box">
+               <input type="text" class="input-text" th:value="${selectOrderById.sml}" placeholder="" id="" name="sml">
+				</span></div>
+            </div>
+            <div class="Add_p_s">
+                <label class="form-label col-2">邮&nbsp;&nbsp;&nbsp;&nbsp;费：</label>
+                <div class="formControls col-2"><input type="text" class="input-text" th:value="${selectOrderById.postage}" placeholder="" id=""
+                                                       name="postage">元
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="attach" type="file" class="form-control col-md-7 col-xs-12" name="attach">
+                <p><span style="color:red;font-weight: bold;">*注：1、大小不得超过500k.2、图片格式：jpg、png、jpeg、pneg</span></p>
+                <div id="logoFile"></div>
+            </div>
+            </br> </br> </br> </br> </br> </br> </br> </br> </br> </br> </br> </br> </br> </br>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <button class="btn btn-primary radius" type="submit"><i class="icon-save "></i>保存</button>
+            <button class="btn btn-primary radius" type="submit"><i class="icon-save "></i>取消</button>
+        </div>
+</div>
+</div>
+</form>
+</div>
+</body>
+</html>

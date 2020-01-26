@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<div lang="en" xmlns:th="http://www.thymeleaf.org">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>17商城</title>
+    <link type="text/css" href="css/css.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/js.js"></script>
+    <script src="js/wb.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function(){
+            $(".vipNav dd:first").show();
+        })
+    </script>
+    <input  type="hidden"  th:value="${user_id}" id="names"/>
+    <script type="text/javascript">
+        $(function () {
+            var names = $("#names").val();
+            var pageNum = $("#pageNum").html();
+            var totalPageCount = $("#totalPageCount").html();
+            $("#index").click(function () {
+                window.location = "/findCommodity?user_id=" + names;
+            });
+            $("#top").click(function () {
+                window.location = "/findCommodity?pageNum=" + parseInt(pageNum - 1) + "&user_id=" + names;
+            });
+            $("#bottom").click(function () {
+                window.location ="/findCommodity?pageNum="+(parseInt(pageNum)+1)+"&user_id="+names;
+            });
+            $("#off").click(function () {
+                window.location =  "/findCommodity?pageNum="+totalPageCount+"&user_id="+names;
+            });
+
+            if(pageNum <= 1){
+                $("#index").attr("disabled","disabled");
+                $("#bottom").removeAttr("disabled","disabled");
+                $("#top").attr("disabled","disabled");
+                $("#off").removeAttr("disabled","disabled");
+            }else if(pageNum >= totalPageCount){
+                $("#index").removeAttr("disabled","disabled");
+                $("#bottom").attr("disabled","disabled");
+                $("#top").removeAttr("disabled","disabled");
+                $("#off").attr("disabled","disabled");
+            }
+        });
+    </script>
+
+     
+    </head>
+
+    <div>
+        <div class="mianCont">
+            <div class="top">
+                <span th:text="'您好：'+${session.login.getUsername()+' 欢迎来到17商城'}"></span>&nbsp;&nbsp; <strong class="red"><a href="/login" style="color:red">[退出]</a></strong>
+   <span class="topRight">
+    <a th:href="@{/findCommodity(user_id=${session.login.getId()})}">我的订单</a>&nbsp;|
+    <a th:href="@{/findUserByid(id=${session.login.getId()})}" >会员中心</a>&nbsp;|
+    <a href="/contact">联系我们</a>
+   </span>
+            </div><!--top/-->
+            <div class="lsg">
+                <h1 class="logo"><a href="../index.html"><img src="images/logo.png" width="217" height="90" /></a></h1>
+                <form action="#" method="get" class="subBox">
+                    <div class="subBoxDiv">
+                        <input type="text" class="subLeft" />
+                        <input type="image" src="images/subimg.png" width="63" height="34" class="sub" />
+                        <div class="hotWord">
+                            热门搜索：
+                            <a href="../Business/proinfo.html">冷饮杯</a>&nbsp;
+                            <a href="../Business/proinfo.html">热饮杯</a> &nbsp;
+                            <a href="../Business/proinfo.html">纸杯</a>&nbsp;
+                            <a href="../Business/proinfo.html">纸巾</a>  &nbsp;
+                            <a href="../Business/proinfo.html">纸巾</a> &nbsp;
+                            <a href="../Business/proinfo.html">纸杯</a>&nbsp;
+                        </div><!--hotWord/-->
+                    </div><!--subBoxDiv/-->
+                </form><!--subBox/-->
+                <div class="gouwuche">
+                    <div class="gouCar">
+                        <th:if th:if="${session.gwcCustom!=null}">
+                            <div class="gouCar">
+                                <img src="images/gouimg.png" width="19" height="20" style="position:relative;top:6px;"/>&nbsp;
+                                <strong class="red" th:text="${session.gwcCustom.count}">0</strong>&nbsp;件&nbsp;
+                                <a th:href="@{/findGwc(user_id=${session.login.getId()})}">购物车</a>
+                                <strong class="red" th:text="${session.gwcCustom.totals}"> ￥0.0</strong>
+                                <a th:href="@{/findGwcQd1(user_id=${session.login.getId()})}">去结算</a>
+                            </div>
+                        </th:if>
+                        <th:if th:if="${session.gwcCustom==null}">
+                            <div class="gouCar">
+                                <img src="images/gouimg.png" width="19" height="20" style="position:relative;top:6px;"/>&nbsp;
+                                <strong class="red">0</strong>&nbsp;件&nbsp;
+                                <a href="javascript:void(0)">购物车</a>
+                                <strong class="red"> ￥0.0</strong>
+                                <a href="javascript:void(0)">去结算</a>
+                            </div>
+                        </th:if>
+                    </div><!--gouCar/-->
+                    <div class="myChunlv">
+                        <a th:href="@{/findUserByid(id=${session.login.getId()})}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img
+                                src="images/mychunlv.jpg" width="112" height="34"/></a>
+                    </div><!--myChunlv/-->
+                </div><!--gouwuche/-->
+            </div><!--lsg/-->
+            <div class="pnt">
+                <div class="pntLeft">
+                    <h2 class="Title">所有商品分类
+                        <ul class="InPorNav">
+                        </ul><!--InPorNav/-->
+                    </h2>
+                </div><!--pntLeft/-->
+                <div class="pntRight">
+                    <ul class="nav">
+                        <li><a href="/main">商城首页</a></li>
+                        <li><a href="/findAgent">促销中心</a></li>
+                        <li><a th:href="@{/findUserByid(id=${session.login.getId()})}">会员中心</a></li>
+                        <li><a href="/help">帮助中心</a></li>
+                        <div class="clears"></div>
+                        <div class="phone">TEL：145-753951</div>
+                    </ul><!--nav/-->
+                </div><!--pntRight/-->
+                <div class="clears"></div>
+            </div><!--pnt/-->
+            <div class="positions">
+                当前位置：<a href="/main">首页</a> &gt; <a th:href="@{/findUserByid(id=${session.login.getId()})}">会员中心</a>
+                &gt; <a  th:href="@{/findCommodity(user_id=${session.login.getId()})}" class="posCur">我的订单</a>
+            </div><!--positions/-->
+            <h2 class="oredrName">
+                我的订单 <span style="margin-left:40px;"></span>
+            </h2>
+            <table class="vipOrder">
+                <tr th:each="customLists : ${commodityList}">
+                    <td><a href="#"><img th:src="${customLists.url}" width="60" height="55"></a></td>
+                    <td th:text="${customLists.name}">张益达</td>
+                    <td th:text="${customLists.number}">张益达</td>
+                    <td><span th:text="'￥'+${customLists.vlp}">￥16.9</span><br /><span th:text="${customLists.payment}">支付宝支付</span></td>
+                    <td th:text="${#dates.format(customLists.date,'yyyy-MM-dd')}">2014年6月23日11:32:17</td>
+                    <td><a href="/success">
+                        <strong><span th:if="${customLists.status_id == 0}" >等待付款</span></strong>
+                        <strong><span th:if="${customLists.status_id == 1}" >付款成功</span></strong>
+                    </a></td>
+                    <td><a th:href="@{/fidnDingDan(did=${customLists.tb_did})}">查看</a></td>
+                </tr>
+            </table><!--vipOrder/-->
+            <br/>
+            <div class="page">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                共<strong class="red" ><span th:text="${pageUtil.totalCount}"></span></strong>条记录&nbsp;每页<strong class="red"><span th:text="${pageUtil.pageSize}"></span></strong>条&nbsp;现在<strong class="red"><span id="pageNum" th:text="${pageUtil.pageNum}"></span></strong>/<strong class="red"><span id="totalPageCount" th:text="${pageUtil.totalPageCount}"></span></strong>页
+                <input type='button'  name='Button4' value='首页' id="index">
+                <input type='button' name='Button4' value='上一页' id="top">
+                <input type='button' name='Button5' value='下一页' id="bottom">
+                <input type='button' name='Button5' value='尾页' id="off">
+            </div>
+            <br/>
+            <br/>
+            <br/>
+        </div><!--contRight/-->
+        <div class="clears"></div>
+    </div><!--cont/-->
+</div>
+<script type="text/javascript">
+</script>
+<a href="#" class="backTop">&nbsp;</a>
+</body>
+<script type="text/javascript">
+    $(function () {
+        $("#zhibei").click(function () {
+            var zhibei = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei + "&pageNum=" + 1;
+        });
+        $("#zhibei1").click(function () {
+            var zhibei1 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei1 + "&pageNum=" + 1;
+        });
+        $("#zhibei2").click(function () {
+            var zhibei2 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei2 + "&pageNum=" + 1;
+        });
+        $("#zhibei3").click(function () {
+            var zhibei3 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei3 + "&pageNum=" + 1;
+        });
+        $("#zhibei4").click(function () {
+            var zhibei4 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei4 + "&pageNum=" + 1;
+        });
+        $("#zhibei5" +
+                "").click(function () {
+            var zhibei5 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei5 + "&pageNum=" + 1;
+        });
+        $("#zhibei6").click(function () {
+            var zhibei6 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei6 + "&pageNum=" + 1;
+        });
+        $("#zhibei7").click(function () {
+            var zhibei7 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei7 + "&pageNum=" + 1;
+        });
+        $("#zhibei8").click(function () {
+            var zhibei8 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei8 + "&pageNum=" + 1;
+        });
+        $("#zhibei9").click(function () {
+            var zhibei9 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei9 + "&pageNum=" + 1;
+        });
+        $("#zhibei10").click(function () {
+            var zhibei10 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei10 + "&pageNum=" + 1;
+        });
+        $("#zhibei11").click(function () {
+            var zhibei11 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei11 + "&pageNum=" + 1;
+        });
+        $("#Dindan").click(function () {
+            var Dindan = $(this).prev().val();
+            window.location = "/findCommodity?user_id=" + Dindan + "&pageNum=" + 1;
+        });
+        $("#Dindan1").click(function () {
+            var Dindan1 = $(this).prev().val();
+            window.location = "/findCommodity?user_id=" + Dindan1 + "&pageNum=" + 1;
+        });
+
+        var names = $("#names").val();
+        var pageNum = $("#pageNum").html();
+        var totalPageCount = $("#totalPageCount").html();
+        $("#index").click(function () {
+            window.location = "/findBeizhi?name=" + names;
+        });
+        $("#top").click(function () {
+            window.location = "/findBeizhi?pageNum=" + parseInt(pageNum - 1) + "&name=" + names;
+        });
+        $("#bottom").click(function () {
+            window.location = "/findBeizhi?pageNum=" + (parseInt(pageNum) + 1) + "&name=" + names;
+        });
+        $("#off").click(function () {
+            window.location = "/findBeizhi?pageNum=" + totalPageCount + "&name=" + names;
+        });
+        if (pageNum <= 1) {
+            $("#index").attr("disabled", "disabled");
+            $("#bottom").removeAttr("disabled", "disabled");
+            $("#top").attr("disabled", "disabled");
+            $("#off").removeAttr("disabled", "disabled");
+        } else if (pageNum >= totalPageCount) {
+            $("#index").removeAttr("disabled", "disabled");
+            $("#bottom").attr("disabled", "disabled");
+            $("#top").removeAttr("disabled", "disabled");
+            $("#off").attr("disabled", "disabled");
+        }
+
+    });
+</script>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"/>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:wb="">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link href="backstage/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="backstage/stylesheet" href="css/style.css"/>
+    <link rel="backstage/stylesheet" href="assets/css/ace.min.css"/>
+    <link rel="backstage/stylesheet" href="assets/css/font-awesome.min.css"/>
+    <link rel="backstage/stylesheet" href="Widget/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <link href="backstage/Widget/icheck/icheck.css" rel="stylesheet" type="text/css"/>
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="backstage/assets/css/font-awesome-ie7.min.css"/>
+    <![endif]-->
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="backstage/assets/css/ace-ie.min.css"/>
+    <![endif]-->
+    <script src="backstage/js/jquery-1.9.1.min.js"></script>
+    <script src="backstage/assets/js/bootstrap.min.js"></script>
+    <script src="backstage/assets/js/typeahead-bs2.min.js"></script>
+    <!-- page specific plugin scripts -->
+    <script src="backstage/assets/js/jquery.dataTables.min.js"></script>
+    <script src="backstage/assets/js/jquery.dataTables.bootstrap.js"></script>
+    <script type="text/javascript" src="js/H-ui.js"></script>
+    <script type="text/javascript" src="js/H-ui.admin.js"></script>
+    <script src="backstage/assets/layer/layer.js" type="text/javascript"></script>
+    <script src="backstage/assets/laydate/laydate.js" type="text/javascript"></script>
+    <script type="text/javascript" src="backstage/backstage/Widget/zTree/js/jquery.ztree.all-3.5.min.js"></script>
+    <script src="backstage/js/lrtk.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="backstage/assets/css/ace.min.css"/>
+    <link rel="stylesheet" href="backstage/assets/css/font-awesome.min.css"/>
+</head>
+<script type="text/javascript">
+    $(function () {
+        var pageNum = $("#pageNum").html();
+        var totalPageCount = $("#totalPageCount").html();
+        $("#index").click(function () {
+            window.location = "/SelectOrder";
+        });
+        $("#top").click(function () {
+            window.location = "/SelectOrder?pageNum=" + parseInt(pageNum - 1);
+        });
+        $("#bottom").click(function () {
+            window.location = "/SelectOrder?pageNum=" + (parseInt(pageNum) + 1);
+        });
+        $("#off").click(function () {
+            window.location = "/SelectOrder?pageNum=" + totalPageCount;
+        });
+
+
+        if (pageNum <= 1) {
+            $("#index").attr("disabled", "disabled");
+            $("#bottom").removeAttr("disabled", "disabled");
+            $("#top").attr("disabled", "disabled");
+            $("#off").removeAttr("disabled", "disabled");
+        } else if (pageNum >= totalPageCount) {
+            $("#index").removeAttr("disabled", "disabled");
+            $("#bottom").attr("disabled", "disabled");
+            $("#top").removeAttr("disabled", "disabled");
+            $("#off").attr("disabled", "disabled");
+        }
+    });
+</script>
+
+<body>
+<div class=" page-content clearfix">
+
+    <div id="products_style">
+        </br>
+        <form th:action="@{/findQueryOrder}" method="post">
+            <div class="search_style">
+                <ul class="search_content clearfix">
+                    <label class="l_f">商品名称</label>&nbsp;&nbsp;&nbsp;
+                    <input name="name" type="text" th:value="${order.name}" class="text_add" placeholder="输入品牌名称"
+                           style=" width:250px"/>
+                    <label class="l_f">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;配送公司</label>&nbsp;&nbsp;&nbsp;
+                    <input name="distribution" type="text" th:value="${order.distribution}" class="text_add"
+                           placeholder="配送公司" style=" width:250px"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" class="btn_search" value="查询"/>
+                </ul>
+            </div>
+        </form>
+        </br>
+        <div class="border clearfix">
+       <span class="l_f">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/picture" title="添加商品"
+                                                                 class="btn btn-warning Order_form"><i
+               class="icon-plus"></i>添加商品</a>
+       </span>
+        </div>
+        </br>
+        <div class="table_menu_list" id="testIframe">
+            <table class="table table-striped table-bordered table-hover" id="sample-table">
+                <thead>
+                <tr>
+                    <th width="100px">&nbsp;&nbsp;&nbsp;商品编号</th>
+                    <th width="300px">&nbsp;&nbsp;&nbsp;商品名称</th>
+                    <th width="100px">&nbsp;&nbsp;&nbsp;商品单位</th>
+                    <th width="180px">&nbsp;&nbsp;&nbsp;&nbsp;商品价钱</th>
+                    <th width="100px">&nbsp;&nbsp;商品库存</th>
+                    <th width="70px">&nbsp;&nbsp;商品邮费</th>
+                    <th width="70px">商品所属</th>
+                    <th width="200px">&nbsp;&nbsp;&nbsp;配送公司</th>
+                    <th width="200px">&nbsp;&nbsp;&nbsp;操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="list:${AdminList}">
+                    <td align="center" width="25px" th:text="${list.sp_id}"></td>
+                    <td width="25p" th:text="${list.name}"></td>
+                    <td align="center" width="25px" th:text="${list.bag}"></td>
+                    <td align="center" width="40px" th:text="${list.vlp}"></td>
+                    <td align="center" width="100px" th:text="${list.stock}"></td>
+                    <td align="center" width="100px" th:text="${list.postage}"></td>
+                    <td align="center" width="100px" th:text="${list.city}"></td>
+                    <td align="center" width="180px" th:text="${list.distribution}"></td>
+                    <td class="td-manage">
+                        <a title="编辑" onclick="member_edit('510')" th:href="@{/findSelectOrderById(id=${list.id})}"
+                           class="btn btn-xs btn-info"><i class="icon-edit bigger-120"></i></a>
+                        <a title="删除" th:href="@{/DeleteOrder(id=${list.id})}" th:item-id="${list.id}"
+                           class="btn btn-xs btn-warning"><i class="icon-trash  bigger-120"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="xian">
+                <br/>
+                <div class="page">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    共<strong class="red"><span th:text="${pageUtil.totalCount}"></span></strong>条记录&nbsp;每页<strong
+                        class="red"><span th:text="${pageUtil.pageSize}"></span></strong>条&nbsp;现在<strong class="red"><span
+                        id="pageNum" th:text="${pageUtil.pageNum}"></span></strong>/<strong class="red"><span
+                        id="totalPageCount" th:text="${pageUtil.totalPageCount}"></span></strong>页
+                    <input type='button' name='Button4' value='首页' id="index">
+                    <input type='button' name='Button4' value='上一页' id="top">
+                    <input type='button' name='Button5' value='下一页' id="bottom">
+                    <input type='button' name='Button5' value='尾页' id="off">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

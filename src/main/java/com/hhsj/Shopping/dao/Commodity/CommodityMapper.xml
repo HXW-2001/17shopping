@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhsj.Shopping.dao.Commodity.CommodityMapper">
+
+
+    <!--订单信息添加-->
+    <insert id="addCommodity" parameterType="Commodity">
+        INSERT INTO tb_category (user_id,order_id,name,type_id,spname,vlp,stype,number,status_id,payment_id,postages,total,distribution,url,sj,receiver_phone,receiver_address,date)
+        VALUES(#{user_id},#{order_id},#{name},#{type_id},#{spname},#{vlp},#{stype},
+        #{number},#{status_id},#{payment_id},#{postages},#{total},#{distribution},#{url},#{sj},#{receiver_phone},#{receiver_address},#{date})
+    </insert>
+
+
+    <!--查询订单信息-->
+    <select id="findCommodity" parameterType="int" resultType="CommodityCustom">
+        SELECT DISTINCT c.`name`,c.`number`,g.`tb_did`,c.`did`,o.`url`,o.`vlp`,(SELECT t.`payment` FROM tb_type AS t WHERE t.`id`=c.`payment_id`) AS payment ,c.`date`,c.`status_id` ,c.`payment_id` FROM sp_order AS o,sp_gl AS g,tb_category AS c,tb_type AS t
+       WHERE o.`id`=g.`tb_did` AND g.`order_id`=c.`did`  AND c.`user_id`=#{user_id}
+    </select>
+
+    <!--查询订单详情-->
+    <select id="fidnDingDan" parameterType="int" resultType="CommodityCustom">
+    SELECT  a.`id`,o.`name`,c.`number`,o.`vlp`,CONCAT(a.`receiver_name`,',',a.`receiver_phone`,',',a.`receiver_state`,',',a.`receiver_city`,',',a.`receiver_address`,',',a.`receiver_zip`) AS adderss,c.`sj`,t.`payment`,c.`status_id`
+      FROM sp_order AS o,sp_gl AS g,tb_category AS c,tb_type AS t,tb_address AS a
+      WHERE o.`id`=g.`tb_did` AND g.`order_id`=c.`did` AND a.`user_id`=c.`user_id` AND t.`id`=c.`payment_id` AND g.`tb_did`=#{did}
+    </select>
+
+    <!--支付状态修改-->
+    <update id="UpdateStatus" parameterType="Commodity">
+        UPDATE tb_category SET status_id=#{status_id} WHERE did=#{did}
+    </update>
+</mapper>

@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:wb="">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link href="Backstage/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="Backstage/css/style.css"/>
+    <link href="Backstage/assets/css/codemirror.css" rel="stylesheet">
+    <link rel="stylesheet" href="Backstage/assets/css/ace.min.css"/>
+    <link rel="stylesheet" href="Backstage/assets/css/font-awesome.min.css"/>
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="Backstage/assets/css/font-awesome-ie7.min.css"/>
+    <![endif]-->
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="Backstage/assets/css/ace-ie.min.css"/>
+    <![endif]-->
+    <script src="Backstage/assets/js/jquery.min.js"></script>
+    <title>用户查看</title>
+</head>
+<body>
+<div class="member_show" align="center">
+    <div class="member_jbxx clearfix">
+        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;<img class="img" src="Backstage/images/user.png">
+    </div>
+    <div class="member_content" align="center">
+        <ul style="align-items: center;" th:each="users:${ListUser}">
+            <ul>
+                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="label_name">用户名：</label><span class="name"
+                                                                                              th:text="${users.username}">男</span>
+                </li>
+                <li><label class="label_name">姓名：</label><span class="name"
+                                                               th:text="${users.receiver_name}">13456765555</span>
+                </li>
+                <li><label class="label_name">电话：</label><span class="name"
+                                                               th:text="${users.phone}">021-454443344</span></li>
+                <li><label class="label_name">邮箱：</label><span class="name" th:text="${users.email}">2014.12.20</span>
+                </li>
+                <li><label class="label_name">地址：</label><span class="name" th:text="${users.receiver_address}">江苏南京市雨花台区创业路5号紫荆花园2懂4单元402</span>
+                </li>
+                <li><label class="label_name">邮政编码：</label><span class="name" th:text="${users.receiver_zip}">admin@mail.com</span>
+                </li>
+
+
+                <li><label class="label_name">身份证号：</label><span class="name" th:text="${users.card_id}">330</span></li>
+                <li><label class="label_name">所在城市：</label><span class="name"
+                                                                 th:text="${users.receiver_city}">普通用户</span></li>
+            </ul>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

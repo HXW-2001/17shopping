@@ -1,0 +1,444 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>17商城</title>
+    <link type="text/css" href="css/css.css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/js.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#vipUp").click(function () {
+                $(".address").stop(true, true).slideDown();
+            });
+            $("#commit").click(function () {
+                        var username = $("#username").val();
+                        var receiver_zip = $("#receiver_zip").val();
+                        var card_id = $("#card_id").val();
+                        var receiver_phone = $("#phone").val();
+                        var receiver_address = $("#receiver_address").val();
+                        var re = /^[1-9][0-9]{5}$/;//邮编
+                        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;//身份证验证
+                        var res = /^(13[0-9]{9})|(15[89][0-9]{8})$/;//电话验证
+
+                        if (username == null || username == '') {
+                            $("#100").html("用户名不能为空");
+                            return false;
+                        } else if (receiver_zip == null || receiver_zip == '') {
+                            $("#101").html("邮箱不能为空");
+                            return false;
+                        } else if (!re.test(receiver_zip)) {
+                            jQuery("#107").html(" 邮政编码格式不正确！");
+                            return false;
+                        } else if (card_id == null || card_id == '') {
+                            $("#102").html("证件号不能为空");
+                            return false;
+                        } else if (card_id.length > 18 || card_id.length < 18) {
+                            $("#105").html("证件号输入格式不正确！");
+                            return false;
+                        } else if (reg.test(card_id) === false) {
+                            jQuery("#108").html("身份证号输入格式有误！");
+                            return false;
+                        } else if (receiver_phone == null || receiver_phone == '') {
+                            $("#103").html("电话不能为空！");
+                            return false;
+                        } else if (receiver_phone.length > 11 || receiver_phone.length < 11) {
+                            $("#106").html("电话输入错误！");
+                            return false;
+                        } else if (!res.text(receiver_phone)) {
+                            $("#109").html("请输入正确的手机号码！");
+                            return false;
+                        } else if (receiver_address == null || receiver_address == '') {
+                            $("#104").html("地址不能为空！");
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+            );
+            $("#username").click(function () {
+                jQuery("#100").html(null);
+                jQuery("#107").html(null);
+                jQuery("#108").html(null);
+                jQuery("#109").html(null);
+            });
+            $("#receiver_zip").click(function () {
+                jQuery("#100").html(null);
+                jQuery("#101").html(null);
+                jQuery("#107").html(null);
+                jQuery("#108").html(null);
+                jQuery("#109").html(null);
+            });
+            $("#card_id").click(function () {
+                jQuery("#100").html(null);
+                jQuery("#101").html(null);
+                jQuery("#102").html(null);
+                jQuery("#105").html(null);
+                jQuery("#107").html(null);
+                jQuery("#108").html(null);
+                jQuery("#109").html(null);
+            });
+            $("#phone").click(function () {
+                jQuery("#100").html(null);
+                jQuery("#101").html(null);
+                jQuery("#103").html(null);
+                jQuery("#104").html(null);
+                jQuery("#105").html(null);
+                jQuery("#106").html(null);
+                jQuery("#107").html(null);
+                jQuery("#108").html(null);
+                jQuery("#109").html(null);
+            });
+            $("#receiver_address").click(function () {
+                jQuery("#100").html(null);
+                jQuery("#101").html(null);
+                jQuery("#103").html(null);
+                jQuery("#104").html(null);
+                jQuery("#105").html(null);
+                jQuery("#106").html(null);
+                jQuery("#107").html(null);
+                jQuery("#108").html(null);
+                jQuery("#109").html(null);
+
+            });
+        });
+    </script>
+    <input type="hidden" th:value="${name}" id="names"/>
+    <script type="text/javascript">
+        $(function () {
+            var names = $("#names").val();
+            var pageNum = $("#pageNum").html();
+            var totalPageCount = $("#totalPageCount").html();
+            $("#index").click(function () {
+                window.location = "/findBeizhi?name=" + names;
+            });
+            $("#top").click(function () {
+                window.location = "/findBeizhi?pageNum=" + parseInt(pageNum - 1) + "&name=" + names;
+            });
+            $("#bottom").click(function () {
+                window.location = "/findBeizhi?pageNum=" + (parseInt(pageNum) + 1) + "&name=" + names;
+            });
+            $("#off").click(function () {
+                window.location = "/findBeizhi?pageNum=" + totalPageCount + "&name=" + names;
+            });
+            if (pageNum <= 1) {
+                $("#index").attr("disabled", "disabled");
+                $("#bottom").removeAttr("disabled", "disabled");
+                $("#top").attr("disabled", "disabled");
+                $("#off").removeAttr("disabled", "disabled");
+            } else if (pageNum >= totalPageCount) {
+                $("#index").removeAttr("disabled", "disabled");
+                $("#bottom").attr("disabled", "disabled");
+                $("#top").removeAttr("disabled", "disabled");
+                $("#off").attr("disabled", "disabled");
+            }
+        });
+    </script>
+</head>
+<body>
+<div class="mianCont">
+    <div class="top">
+        <span th:text="'您好：'+${session.login.getUsername()+' 欢迎来到17商城'}"></span>&nbsp;&nbsp; <strong class="red"><a href="/login" style="color:red">[退出]</a></strong>
+   <span class="topRight">
+    <input type="hidden" th:value="${session.login.getId()}"/><a href="javascript:void(0)" id="Dindan">我的订单</a>&nbsp;|
+    <a th:href="@{/findUserByid(id=${session.login.getId()})}">会员中心</a>&nbsp;|
+    <a href="/contact">联系我们</a>
+   </span>
+    </div><!--top/-->
+    <div class="lsg">
+        <h1 class="logo"><a href="/main"><img src="images/logo.png" width="217" height="90"/></a></h1>
+        <form action="/findShangPing" method="post" class="subBox">
+            <div class="subBoxDiv">
+                <input type="text" class="subLeft"/>
+                <input type="image" src="images/subimg.png" width="63" height="34" class="sub"/>
+                <div class="hotWord">
+                    热门搜索：
+                    <input type="hidden" value="杯"/><a href="javascript:void(0)" id="zhibei8">杯子</a> &nbsp;
+                    <input type="hidden" value="餐"/><a href="javascript:void(0)" id="zhibei9">餐具</a> &nbsp;
+                    <input type="hidden" value="纸"/><a href="javascript:void(0)" id="zhibei10">纸类</a> &nbsp;
+                    <input type="hidden" value="纸碟"/><a href="javascript:void(0)" id="zhibei11">纸碟</a> &nbsp;
+                </div><!--hotWord/-->
+            </div><!--subBoxDiv/-->
+        </form><!--subBox/-->
+        <div class="gouwuche">
+            <div class="gouCar">
+                <th:if th:if="${session.gwcCustom!=null}">
+                    <div class="gouCar">
+                        <img src="images/gouimg.png" width="19" height="20" style="position:relative;top:6px;"/>&nbsp;
+                        <strong class="red" th:text="${session.gwcCustom.count}">0</strong>&nbsp;件&nbsp;
+                        <a th:href="@{/findGwc(user_id=${session.login.getId()})}">购物车</a>
+                        <strong class="red" th:text="${session.gwcCustom.totals}"> ￥0.0</strong>
+                        <a th:href="@{/findGwcQd1(user_id=${session.login.getId()})}">去结算</a>
+                    </div>
+                </th:if>
+                <th:if th:if="${session.gwcCustom==null}">
+                    <div class="gouCar">
+                        <img src="images/gouimg.png" width="19" height="20" style="position:relative;top:6px;"/>&nbsp;
+                        <strong class="red">0</strong>&nbsp;件&nbsp;
+                        <a href="javascript:void(0)">购物车</a>
+                        <strong class="red"> ￥0.0</strong>
+                        <a href="javascript:void(0)">去结算</a>
+                    </div>
+                </th:if>
+            </div><!--gouCar/-->
+            <div class="myChunlv">
+                <a th:href="@{/findUserByid(id=${session.login.getId()})}">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img
+                        src="images/mychunlv.jpg" width="112" height="34"/></a>
+            </div><!--myChunlv/-->
+        </div><!--gouwuche/-->
+    </div><!--lsg/-->
+    <div class="pnt">
+        <div class="pntLeft">
+            <h2 class="Title">所有商品分类
+            </h2>
+        </div><!--pntLeft/-->
+        <div class="pntRight">
+            <ul class="nav">
+                <li class="navCur"><a href="/main">商城首页</a></li>
+                <li><a href="/findAgent">促销中心</a></li>
+                <li><a th:href="@{/findUserByid(id=${session.login.getId()})}">会员中心</a></li>
+                <li><a href="/help">帮助中心</a></li>
+                <div class="clears"></div>
+                <div class="phone">TEL：021-12345678</div>
+            </ul><!--nav/-->
+        </div><!--pntRight/-->
+        <div class="clears"></div>
+    </div><!--pnt/-->
+    <div class="positions">
+        当前位置：<a href="/main">首页</a> &gt;
+        <a th:href="@{/findUserByid(id=${session.login.getId()})}">会员中心</a>
+        &gt; <a th:href="@{/findCommodity1(user_id=${session.login.getId()})}">我的订单</a>
+    </div><!--positions/-->
+    <div class="cont">
+        <div class="contLeft" id="contLeft">
+            <h3 class="leftTitle">会员中心</h3>
+            <dl class="helpNav vipNav">
+                <dt>我的主页</dt>
+                <dd>
+                    <a class="vipCur" th:href="@{/findUserByid(id=${session.login.getId()})}">个人中心</a>
+                    <a th:href="@{/findCommodity1(user_id=${session.login.getId()})}">我的订单</a>
+                </dd>
+                <dt>账户设置</dt>
+                <dd>
+                    <a th:href="@{/findUserPerson(id=${session.login.getId()})}">个人信息</a>
+                    <a th:href="@{/UserPassword}">密码修改</a>
+                    <a th:href="@{/findAddress(id=${session.login.getId()})}">收货地址</a>
+                </dd>
+                <dt>客户服务</dt>
+                <dd>
+                    <a th:href="@{/Exit}">网站使用条款</a>
+                    <a th:href="@{/Tuihuo}">网站免责声明</a>
+                </dd>
+            </dl><!--helpNav/-->
+        </div><!--contLeft/-->
+        <div class="contRight">
+            <h1><span th:text="'用户名：'+${session.login.getUsername()}" class="vipName">纯小绿先森</span>
+                <strong class="vipUp" id="vipUp">[点击修改]</strong>
+            </h1>
+            <form th:action="@{/UpdateUsers(id=${session.login.getId()})}" method="post">
+                <input type="hidden" name="id" id="ids" th:value="${session.login.getId()}"/>
+                <table class="vipMy" id="vipMy">
+                    <tr>
+                        <th>真实姓名</th>
+                        <th>邮编</th>
+                        <th>联系方式</th>
+                        <th>证件号码</th>
+                        <th>地址</th>
+                    </tr>
+                    <tr>
+                        <td th:text="${UserPerson.receiver_name}"></td>
+                        <td th:text="${UserPerson.receiver_zip}"></td>
+                        <td th:text="${UserPerson.phone}"></td>
+                        <td th:text="${UserPerson.card_id}"></td>
+                        <td th:text="${UserPerson.receiver_address}"></td>
+                    </tr>
+                </table><!--vipMy/-->
+                <div class="address">
+                    <div class="addList">
+                        <label><span class="red">*</span>用户名:</label>
+                        <input type="hidden" name="username" th:value="${UserPerson.username}"/>
+                        <input type="text" id="username" name="" th:value="${UserPerson.username}"
+                               disabled="disabled"/>
+                        <span id="100" style="text-align: center;color: red;font-size: 18px"></span>
+                    </div><!--addList-->
+                    <div class="addList">
+                        <label><span class="red">* </span>邮政编码:</label>
+                        <input type="text" id="receiver_zip" name="receiver_zip" th:value="${UserPerson.receiver_zip}"/>
+                        <span id="101" style="text-align: center;color: red;font-size: 18px"></span>
+                        <span id="107" style="text-align: center;color: red;font-size: 18px"></span>
+                    </div><!--addList-->
+                    <div class="addList">
+                        <label><span class="red">* </span>证件号码:</label>
+                        <input type="text" id="card_id" name="card_id" th:value="${UserPerson.card_id}"/>
+                        <span id="102" style="text-align: center;color: red;font-size: 18px"></span>
+                        <span id="105" style="text-align: center;color: red;font-size: 18px"></span>
+                        <span id="108" style="text-align: center;color: red;font-size: 18px"></span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span id="test" th:text="${test}" style="text-align: center;color: red;font-size: 18px"></span>
+                    </div><!--addList-->
+                    <div class="addList">
+                        <label><span class="red">* </span>手机号码:</label>
+                        <input type="text" id="phone" name="phone" th:value="${UserPerson.phone}">
+                        <span id="103" style="text-align: center;color: red;font-size: 18px"></span>
+                        <span id="106" style="text-align: center;color: red;font-size: 18px"></span>
+                        <span id="109" style="text-align: center;color: red;font-size: 18px"></span>
+                    </div><!--addList-->
+                    <div class="addList">
+                        <label><span class="red">* </span>详细地址:</label>
+                        <input type="text" id="receiver_address" name="receiver_address"
+                               th:value="${UserPerson.receiver_address}"/>
+                        <span id="104" style="text-align: center;color: red;font-size: 18px"></span>
+                    </div><!--addList-->
+                    <input type="hidden" name="id" id="id" th:value="${session.login.getId()}"/>
+                    <input type="hidden" name="user_id" th:value="${session.login.getId()}"/>
+                    <div class="addList2">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                            id="commit" type="submit" width="79" height="30"/>
+                    </div><!--addList2/-->
+                </div>
+            </form>
+        </div><!--contRight/-->
+        <div class="clears"></div>
+    </div><!--cont/-->
+    <div class="inHelp">
+        <div class="inHLeft">
+            <h4>帮助中心</h4>
+            <ul class="inHeList">
+                <li><a href="/help">购物指南</a></li>
+                <li><a href="/help">支付方式</a></li>
+                <li><a href="/help">售后服务</a></li>
+                <li><a href="/about">企业简介</a></li>
+                <div class="clears"></div>
+            </ul><!--inHeList/-->
+        </div><!--inHLeft/-->
+        <div class="inHLeft">
+            <h4>会员服务</h4>
+            <ul class="inHeList">
+                <li><a href="/reg">会员注册</a></li>
+                <li><a href="/login">会员登录</a></li>
+                <li><a th:href="@{/findGwc(user_id=${session.login.getId()})}">购物车</a></li>
+                <li><input type="hidden" th:value="${session.login.getId()}"/><a href="javascript:void(0)" id="Dindan1">我的订单</a>
+                    <div class="clears"></div>
+            </ul><!--inHeList/-->
+        </div><!--inHLeft/-->
+        <div class="inHRight">
+            <h4>全国统一免费服务热线</h4>
+            <div class="telBox">400-0000-0000</div>
+            <div class="weibo">
+                <wb:follow-button uid="2991975565" type="red_1" width="67" height="24"></wb:follow-button>
+            </div>
+        </div><!--inHRight/-->
+        <div class="clears"></div>
+    </div><!--inHelp/-->
+    <div class="footer">
+        <p>
+            <a href="#">进入17官网</a>&nbsp;|&nbsp;
+            <a href="../index.html">商城首页</a>&nbsp;|&nbsp;
+            <a href="../Business/product.html">促销中心</a>&nbsp;|&nbsp;
+            <a href="../Business/order.html">我的订单</a>&nbsp;|&nbsp;
+            <a href="new.html">新闻动态</a>&nbsp;|&nbsp;
+            <a href="../login.html">会员中心</a>&nbsp;|&nbsp;
+            <a href="help.htmll">帮助中心</a>
+        </p>
+        <p>
+            版权所有：南昌17实业有限公司 版权所有 夏天南、黄熊伟 <a href="http://www.mycodes.net/"
+                                            target="_blank"></a>
+        </p>
+    </div><!--footer/-->
+</div><!--mianCont/-->
+<a href="#" class="backTop">&nbsp;</a>
+</body>
+<script type="text/javascript">
+    $(function () {
+        $("#zhibei").click(function () {
+            var zhibei = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei + "&pageNum=" + 1;
+        });
+        $("#zhibei1").click(function () {
+            var zhibei1 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei1 + "&pageNum=" + 1;
+        });
+        $("#zhibei2").click(function () {
+            var zhibei2 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei2 + "&pageNum=" + 1;
+        });
+        $("#zhibei3").click(function () {
+            var zhibei3 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei3 + "&pageNum=" + 1;
+        });
+        $("#zhibei4").click(function () {
+            var zhibei4 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei4 + "&pageNum=" + 1;
+        });
+        $("#zhibei5" +
+                "").click(function () {
+            var zhibei5 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei5 + "&pageNum=" + 1;
+        });
+        $("#zhibei6").click(function () {
+            var zhibei6 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei6 + "&pageNum=" + 1;
+        });
+        $("#zhibei7").click(function () {
+            var zhibei7 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei7 + "&pageNum=" + 1;
+        });
+        $("#zhibei8").click(function () {
+            var zhibei8 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei8 + "&pageNum=" + 1;
+        });
+        $("#zhibei9").click(function () {
+            var zhibei9 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei9 + "&pageNum=" + 1;
+        });
+        $("#zhibei10").click(function () {
+            var zhibei10 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei10 + "&pageNum=" + 1;
+        });
+        $("#zhibei11").click(function () {
+            var zhibei11 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei11 + "&pageNum=" + 1;
+        });
+        $("#Dindan").click(function () {
+            var Dindan = $(this).prev().val();
+            window.location = "/findCommodity?user_id=" + Dindan + "&pageNum=" + 1;
+        });
+        $("#Dindan1").click(function () {
+            var Dindan1 = $(this).prev().val();
+            window.location = "/findCommodity?user_id=" + Dindan1 + "&pageNum=" + 1;
+        });
+
+        var names = $("#names").val();
+        var pageNum = $("#pageNum").html();
+        var totalPageCount = $("#totalPageCount").html();
+        $("#index").click(function () {
+            window.location = "/findBeizhi?name=" + names;
+        });
+        $("#top").click(function () {
+            window.location = "/findBeizhi?pageNum=" + parseInt(pageNum - 1) + "&name=" + names;
+        });
+        $("#bottom").click(function () {
+            window.location = "/findBeizhi?pageNum=" + (parseInt(pageNum) + 1) + "&name=" + names;
+        });
+        $("#off").click(function () {
+            window.location = "/findBeizhi?pageNum=" + totalPageCount + "&name=" + names;
+        });
+        if (pageNum <= 1) {
+            $("#index").attr("disabled", "disabled");
+            $("#bottom").removeAttr("disabled", "disabled");
+            $("#top").attr("disabled", "disabled");
+            $("#off").removeAttr("disabled", "disabled");
+        } else if (pageNum >= totalPageCount) {
+            $("#index").removeAttr("disabled", "disabled");
+            $("#bottom").attr("disabled", "disabled");
+            $("#top").removeAttr("disabled", "disabled");
+            $("#off").attr("disabled", "disabled");
+        }
+
+    });
+</script>
+</html>

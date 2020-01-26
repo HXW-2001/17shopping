@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    /*<!--样式-->*/
+    /*CSS初始化*/
+    * {
+        /*清除内边距*/
+        margin: 0px;
+        padding: 0px;
+    }
+
+    ul { /*清除列表样式数点*/
+        list-style: none;
+    }
+
+    .clearfix:before, clearfix:after {
+        display: table;
+        content: "";
+    }
+
+    clearfix:after {
+        clear: both;
+    }
+
+    clearfix {
+        *zoom: 1;
+    }
+
+    a {
+        color: #050505;
+        text-decoration: none; /*取消下滑线*/
+    }
+
+    input {
+        border: 0px; /*所有表单边框为零*/
+        box-sizing: border-box; /*把border和padding包含到width里面去*/
+    }
+
+    body {
+        background-color: #f3f5f7;
+    }
+
+    /*公共类*/
+    .container { /* 版心宽度是1200PX 居中对齐*/
+        width: 1200px;
+        margin: 0 auto;
+    }
+
+    /*网页头部*/
+    header {
+        height: 100px;
+        background-color: pink;
+        overflow: hidden;
+    }
+
+    nav {
+        width: 1366px;
+        height: 42px;
+        background-color: purple;
+        margin: 26px auto; /*盒子居中对齐*/
+    }
+
+    .logo {
+        float: left;
+    }
+
+    .navber {
+        float: left;
+        height: 42px;
+        line-height: 42px;
+        margin-left: 50px;
+    }
+
+    .navber ul li {
+        float: left; /* 让首页课程在一行显示*/
+    }
+
+    .navber li a {
+        padding: 0 10px; /*上下0 左右8像数*/
+        display: block; /*行内元素转为块级元素*/
+        height: 42px;
+    }
+
+    .navber li a:hover {
+        border-bottom: 2px solid #00a4ff; /*鼠标放上去下面显示边款     */
+    }
+
+    /* 搜索框部分*/
+    .search {
+        width: 410px;
+        height: 38px;
+        border: 1px solid #00a4ff;
+        float: left;
+    }
+
+    .search input[type=text] {
+        /*background-color: pink;*/
+        width: 360px;
+        height: 38px;
+        padding: 20px;
+        float: left;
+    }
+
+    .search input[type=submit] {
+        width: 50px;
+        height: 41px;
+        float: left;
+        background: #00a4ff url(images/sousuotupian_06.png) center center no-repeat;
+    }
+
+    /* 搜索框部分结束*/
+    /*个人中心部分*/
+    .personal {
+        height: 42px;
+        float: right;
+        line-height: 42px;
+        margin: 0 15px 0 40px;
+    }
+
+    .personal img {
+        margin: 0 8px;
+    }
+
+    /*个人中心部分结束*/
+    /*<!--banner部分-->*/
+    .banner {
+        height: 420px;
+        background-color: #1c036c;
+    }
+
+    .banner-in {
+        height: 420px;
+        background: url(images/bgc_19.png) 0 0 no-repeat;
+    }
+
+</style>
+
+<body>
+<!--结构-->
+<!--网页头部-->
+<header>
+    <!--nav部分-->
+    <nav>
+        <div class="logo"><img src="images/logo_03.png"/>
+        </div>
+        <!--导航栏-->
+        <div class="navber">
+            <ul>
+                <li><a href="#">首页</a></li>
+                <li><a href="#">课程</a></li>
+                <li><a href="#">职业规划</a></li>
+            </ul>
+        </div>
+        <!--搜索框部分-->
+        <div class="search">
+            <form action="">
+                <input type="text" placeholder="请输入要查询的物品"/>
+                <input type="submit" value=""/>
+            </form>
+        </div>
+        <!--个人中心部分-->
+        <div class="personal">
+            <a href="#">个人中心<img src="images/ling_06.png"/></a>
+            <a href="#"><img src="images/touxiang_06.png"/>符龙飞</a>
+        </div>
+
+
+    </nav>
+</header>
+<!--banner部分-->
+<div class="banner">
+    <div class="banner-in container"></div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>17商城</title>
+    <link type="text/css" href="css/css.css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/js.js"></script>
+    <script src="js/wb.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+<div class="mianCont">
+    <div class="top">
+        <span th:text="'您好：'+${session.login.getUsername()+' 欢迎来到17商城'}"></span>&nbsp;&nbsp; <strong class="red"><a
+            href="/login" style="color:red">[退出]</a></strong>
+    <span class="topRight">
+    <a th:href="@{/findCommodity(user_id=${session.login.getId()})}">我的订单</a>&nbsp;|
+    <a th:href="@{/findUserByid(id=${session.login.getId()})}">会员中心</a>&nbsp;|
+    <a href="/contact">联系我们</a>
+   </span>
+    </div><!--top/-->
+    <div class="lsg">
+        <h1 class="logo"><a href="/main"><img src="images/logo.png" width="217" height="90"/></a></h1>
+        <form action="/findShangPing" method="post" class="subBox">
+            <div class="subBoxDiv">
+                <input type="text" name="name" class="subLeft"/>
+                <input type="image" src="images/subimg.png" width="63" height="34" class="sub"/>
+                <div class="hotWord">
+                    热门搜索：
+                    <input type="hidden" value="餐"/><a href="javascript:void(0)" id="zhibei8">杯子</a> &nbsp;
+                    <input type="hidden" value="餐"/><a href="javascript:void(0)" id="zhibei9">餐具</a> &nbsp;
+                    <input type="hidden" value="纸"/><a href="javascript:void(0)" id="zhibei10">纸类</a> &nbsp;
+                    <input type="hidden" value="纸碟"/><a href="javascript:void(0)" id="zhibei11">纸碟</a> &nbsp;
+                </div><!--hotWord/-->
+            </div><!--subBoxDiv/-->
+        </form><!--subBox/-->
+        <div class="gouwuche">
+            <div class="gouCar">
+                <th:if th:if="${session.gwcCustom!=null}">
+                    <div class="gouCar">
+                        <img src="images/gouimg.png" width="19" height="20" style="position:relative;top:6px;"/>&nbsp;
+                        <strong class="red" th:text="${session.gwcCustom.count}">0</strong>&nbsp;件&nbsp;
+                        <a th:href="@{/findGwc(user_id=${session.login.getId()})}">购物车</a>
+                        <strong class="red" th:text="${session.gwcCustom.totals}"> ￥0.0</strong>
+                        <a th:href="@{/findGwcQd1(user_id=${session.login.getId()})}">去结算</a>
+                    </div>
+                </th:if>
+                <th:if th:if="${session.gwcCustom==null}">
+                    <div class="gouCar">
+                        <img src="images/gouimg.png" width="19" height="20" style="position:relative;top:6px;"/>&nbsp;
+                        <strong class="red">0</strong>&nbsp;件&nbsp;
+                        <a href="javascript:void(0)">购物车</a>
+                        <strong class="red"> ￥0.0</strong>
+                        <a href="javascript:void(0)">去结算</a>
+                    </div>
+                </th:if>
+            </div><!--gouCar/-->
+            <div class="myChunlv">
+                <a href="/vip">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img
+                        src="images/mychunlv.jpg" width="112" height="34"/></a>
+            </div><!--myChunlv/-->
+        </div><!--gouwuche/-->
+    </div><!--lsg/-->
+    <div class="pnt">
+        <div class="pntLeft">
+            <h2 class="Title">所有商品分类
+                <ul class="InPorNav">
+                </ul><!--InPorNav/-->
+            </h2>
+        </div><!--pntLeft/-->
+        <div class="pntRight">
+            <ul class="nav">
+                <li class="navCur"><a href="/main">商城首页</a></li>
+                <li><a href="/findAgent">促销中心</a></li>
+                <li><a th:href="@{/findUserByid(id=${session.login.getId()})}">会员中心</a></li>
+                <li><a href="/help">帮助中心</a></li>
+                <div class="clears"></div>
+                <div class="phone">TEL：021-12345678</div>
+            </ul><!--nav/-->
+        </div><!--pntRight/-->
+        <div class="clears"></div>
+    </div><!--pnt/-->
+    <div class="positions">
+        当前位置：<a href="/main">首页</a> &gt; <a th:href="@{/findCommodity(user_id=${session.login.getId()})}"
+                                            class="posCur">确认订单</a>
+    </div><!--positions/-->
+    <div class="cont">
+        <div class="carImg"><img src="images/33333.png" width="951" height="27"/></div>
+        <table class="orderList">
+            <tr>
+                <th width="20"></th>
+                <th width="420">商品</th>
+                <th width="135">单价</th>
+                <th width="135">数量</th>
+                <th width="135">总金额</th>
+            </tr>
+            <tr>
+                <td><input type="hidden" value="-------"/></td>
+                <td>
+                    <dl>
+                        <dt><a href="#"><img th:src="${findPrice.url}" width="85" height="85"/></a></dt>
+                        <dd><span th:text="${findPrice.name}">全球最大的中文搜索引擎、致力于让网民更便捷</span></dd>
+                        <div class="clears"></div>
+                    </dl>
+                </td>
+                <td><strong class="red" th:text=" '￥'+ ${findPrice.vlp}">￥70.20</strong></td>
+                <td>
+                    <div class="jia_jian">
+                        <span th:text="${findPrice.number}" value=""/>
+                    </div>
+                </td>
+                <td><strong class="red" th:text="'￥'+${findPrice.total}">￥70.20</strong></td>
+            </tr>
+        </table><!--orderList/-->
+        <div class="zongji">
+            总计(含运费)：<strong class="red" th:text="${findPrice.total}">￥70.42</strong>
+        </div><!--zongji/-->
+        <div class="jiesuan">
+            <a href="/findAgent" class="jie_1">继续购物&gt;&gt;</a>
+            <a th:href="@{/orderDetails(id=${findPrice.id},cid=${findPrice.cid},user_id=${session.login.getId()})}"
+               id="jies">立即结算&gt;&gt;</a>
+            <div class="clears"></div>
+        </div><!--jiesuan/-->
+        <div class="clears"></div>
+    </div><!--cont/-->
+    <div class="inHelp">
+        <div class="inHLeft">
+            <h4>帮助中心</h4>
+            <ul class="inHeList">
+                <li><a href="/help">购物指南</a></li>
+                <li><a href="/help">支付方式</a></li>
+                <li><a href="/help">售后服务</a></li>
+                <li><a href="/about">企业简介</a></li>
+                <div class="clears"></div>
+            </ul><!--inHeList/-->
+        </div><!--inHLeft/-->
+        <div class="inHLeft">
+            <h4>会员服务</h4>
+            <ul class="inHeList">
+                <input type="hidden" th:value="${session.login.getId()}"/>
+                <li><a href="/reg">会员注册</a></li>
+                <li><a href="/login">会员登录</a></li>
+                <li><a th:href="@{/findGwc(user_id=${session.login.getId()})}">购物车</a></li>
+                <li><input type="hidden" th:value="${session.login.getId()}"/><a href="javascript:void(0)" id="Dindan1">我的订单</a>
+                </li>
+                <div class="clears"></div>
+            </ul><!--inHeList/-->
+        </div><!--inHLeft/-->
+        <div class="inHRight">
+            <h4>全国统一免费服务热线</h4>
+            <div class="telBox">400-0000-0000</div>
+            <div class="weibo">
+                <wb:follow-button uid="2991975565" type="red_1" width="67" height="24"></wb:follow-button>
+            </div>
+        </div><!--inHRight/-->
+        <div class="clears"></div>
+    </div><!--inHelp/-->
+    <div class="footer">
+        <p>
+            <a href="#">进入17官网</a>&nbsp;|&nbsp;
+            <a href="/main">商城首页</a>&nbsp;|&nbsp;
+            <a href="/product">促销中心</a>&nbsp;|&nbsp;
+            <a href="/order">我的订单</a>&nbsp;|&nbsp;
+            <a href="/help">新闻动态</a>&nbsp;|&nbsp;
+            <a th:href="@{/findUserByid(id=${session.login.getId()})}">会员中心</a>&nbsp;|&nbsp;
+            <a href="/help">帮助中心</a>
+        </p>
+        <p>
+            版权所有：南昌17实业有限公司 版权所有 夏天南、黄熊伟 <a href="http://www.mycodes.net/" target="_blank"></a>
+        </p>
+    </div><!--footer/-->
+</div><!--mianCont/-->
+<script type="text/javascript">
+    $(function () {
+        $("#zhibei").click(function () {
+            var zhibei = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei + "&pageNum=" + 1;
+        });
+        $("#zhibei1").click(function () {
+            var zhibei1 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei1 + "&pageNum=" + 1;
+        });
+        $("#zhibei2").click(function () {
+            var zhibei2 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei2 + "&pageNum=" + 1;
+        });
+        $("#zhibei3").click(function () {
+            var zhibei3 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei3 + "&pageNum=" + 1;
+        });
+        $("#zhibei4").click(function () {
+            var zhibei4 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei4 + "&pageNum=" + 1;
+        });
+        $("#zhibei5" +
+                "").click(function () {
+            var zhibei5 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei5 + "&pageNum=" + 1;
+        });
+        $("#zhibei6").click(function () {
+            var zhibei6 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei6 + "&pageNum=" + 1;
+        });
+        $("#zhibei7").click(function () {
+            var zhibei7 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei7 + "&pageNum=" + 1;
+        });
+        $("#zhibei8").click(function () {
+            var zhibei8 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei8 + "&pageNum=" + 1;
+        });
+        $("#zhibei9").click(function () {
+            var zhibei9 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei9 + "&pageNum=" + 1;
+        });
+        $("#zhibei10").click(function () {
+            var zhibei10 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei10 + "&pageNum=" + 1;
+        });
+        $("#zhibei11").click(function () {
+            var zhibei11 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei11 + "&pageNum=" + 1;
+        });
+        $("#Dindan").click(function () {
+            var Dindan = $(this).prev().val();
+            window.location = "/findCommodity?user_id=" + Dindan + "&pageNum=" + 1;
+        });
+        $("#Dindan1").click(function () {
+            var Dindan1 = $(this).prev().val();
+            window.location = "/findCommodity?user_id=" + Dindan1 + "&pageNum=" + 1;
+        });
+
+        var names = $("#names").val();
+        var pageNum = $("#pageNum").html();
+        var totalPageCount = $("#totalPageCount").html();
+        $("#index").click(function () {
+            window.location = "/findBeizhi?name=" + names;
+        });
+        $("#top").click(function () {
+            window.location = "/findBeizhi?pageNum=" + parseInt(pageNum - 1) + "&name=" + names;
+        });
+        $("#bottom").click(function () {
+            window.location = "/findBeizhi?pageNum=" + (parseInt(pageNum) + 1) + "&name=" + names;
+        });
+        $("#off").click(function () {
+            window.location = "/findBeizhi?pageNum=" + totalPageCount + "&name=" + names;
+        });
+        if (pageNum <= 1) {
+            $("#index").attr("disabled", "disabled");
+            $("#bottom").removeAttr("disabled", "disabled");
+            $("#top").attr("disabled", "disabled");
+            $("#off").removeAttr("disabled", "disabled");
+        } else if (pageNum >= totalPageCount) {
+            $("#index").removeAttr("disabled", "disabled");
+            $("#bottom").attr("disabled", "disabled");
+            $("#top").removeAttr("disabled", "disabled");
+            $("#off").attr("disabled", "disabled");
+        }
+
+    });
+</script>
+<a href="#" class="backTop">&nbsp;</a>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhsj.Shopping.dao.User.UserMapper">
+
+    <!--异步查询用户名是否存在-->
+    <select id="SelectUser" parameterType="User" resultType="int">
+        SELECT COUNT(0) FROM  `tb_user` WHERE username=#{username}
+    </select>
+
+    <!--登录-->
+    <select id="LoginUser" parameterType="User" resultType="User">
+        SELECT * FROM tb_user WHERE username=#{username} AND password=#{password};
+    </select>
+
+    <!--注册-->
+    <insert id="InsertUser" parameterType="User">
+        INSERT INTO `tb_user` (username,password,phone,email,created,updated)
+        VALUES(#{username},#{password},#{phone},#{email},#{created},#{updated})
+    </insert>
+
+    <!--按ID来查询用户-->
+    <select id="findUserByid" parameterType="int" resultType="User">
+    SELECT * FROM `tb_user` WHERE  id=#{id}
+    </select>
+    <!--完善用戶信息-->
+    <update id="UpdateUsers" parameterType="User">
+        UPDATE `tb_user` SET
+        receiver_name=#{receiver_name},receiver_zip=#{receiver_zip},card_id=#{card_id},
+        phone=#{phone},receiver_address=#{receiver_address},receiver_state=#{receiver_state},
+        receiver_city=#{receiver_city},receiver_district=#{receiver_district}
+        WHERE id=#{id}
+    </update>
+    <!--修改用戶表-->
+    <update id="UpdateUser" parameterType="User">
+        UPDATE `tb_user` SET username=#{username},receiver_zip=#{receiver_zip},card_id=#{card_id},phone=#{phone},receiver_address=#{receiver_address}
+        WHERE id=#{id}
+    </update>
+
+    <!--修改用戶密碼-->
+    <update id="UpdatePw" parameterType="User">
+        UPDATE `tb_user` SET  password=#{password} WHERE id=#{id}
+    </update>
+
+    <!--查询地址信息-->
+    <select id="findAddressId" resultType="Address" parameterType="int">
+    SELECT * FROM `tb_address`  WHERE  user_id=#{user_id}
+    </select>
+
+    <!--添加收货地址信息-->
+    <insert id="AddUserAddress" parameterType="Address">
+        INSERT INTO `tb_address`(user_id,receiver_name,receiver_zip,receiver_phone,receiver_address,receiver_state,receiver_city,receiver_district,del_id)
+        VALUES(#{user_id},#{receiver_name},#{receiver_zip},#{receiver_phone},
+        #{receiver_address},#{receiver_state},#{receiver_city},#{receiver_district},#{del_id})
+    </insert>
+    <!--删除地址信息-->
+    <delete id="DeleteAddress" parameterType="Address">
+        DELETE   FROM  `tb_address` WHERE  del_id=#{del_id};
+    </delete>
+
+</mapper>

@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>17商城</title>
+    <link type="text/css" href="css/css.css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/js.js"></script>
+    <input type="hidden" th:value="${name}" id="names"/>
+    <script type="text/javascript">
+        $(function () {
+            var names = $("#names").val();
+            var pageNum = $("#pageNum").html();
+            var totalPageCount = $("#totalPageCount").html();
+            $("#index").click(function () {
+                window.location = "/findBeizhi?name=" + names;
+            });
+            $("#top").click(function () {
+                window.location = "/findBeizhi?pageNum=" + parseInt(pageNum - 1) + "&name=" + names;
+            });
+            $("#bottom").click(function () {
+                window.location = "/findBeizhi?pageNum=" + (parseInt(pageNum) + 1) + "&name=" + names;
+            });
+            $("#off").click(function () {
+                window.location = "/findBeizhi?pageNum=" + totalPageCount + "&name=" + names;
+            });
+            if (pageNum <= 1) {
+                $("#index").attr("disabled", "disabled");
+                $("#bottom").removeAttr("disabled", "disabled");
+                $("#top").attr("disabled", "disabled");
+                $("#off").removeAttr("disabled", "disabled");
+            } else if (pageNum >= totalPageCount) {
+                $("#index").removeAttr("disabled", "disabled");
+                $("#bottom").attr("disabled", "disabled");
+                $("#top").removeAttr("disabled", "disabled");
+                $("#off").attr("disabled", "disabled");
+            }
+        });
+    </script>
+</head>
+
+<body>
+<div class="mianCont">
+    <div class="top">
+        <span>您好！欢迎来到17商城 请&nbsp;<a href="/login">[登录]</a>&nbsp;<a href="/reg">[注册]</a></span>
+    <span class="topRight">
+     <a href="/login">我的订单</a>&nbsp;|
+    <a href="/login">会员中心</a>&nbsp;|
+    <a href="/contact1">联系我们</a>
+   </span>
+    </div><!--top/-->
+    <div class="lsg">
+        <h1 class="logo"><a href="/index"><img src="images/logo.png" width="217" height="90"/></a></h1>
+        <form action="/findShangPing1" method="post" class="subBox">
+            <div class="subBoxDiv">
+                <input type="text" class="subLeft"/>
+                <input type="image" src="images/subimg.png" width="63" height="34" class="sub"/>
+                <div class="hotWord">
+                    热门搜索：
+                    <input type="hidden" value="杯"/><a href="javascript:void(0)" id="zhibei8">杯子</a> &nbsp;
+                    <input type="hidden" value="餐"/><a href="javascript:void(0)" id="zhibei9">餐具</a> &nbsp;
+                    <input type="hidden" value="纸"/><a href="javascript:void(0)" id="zhibei10">纸类</a> &nbsp;
+                    <input type="hidden" value="纸碟"/><a href="javascript:void(0)" id="zhibei11">纸碟</a> &nbsp;
+                </div><!--hotWord/-->
+            </div><!--subBoxDiv/-->
+        </form><!--subBox/-->
+        <div class="gouwuche">
+            <div class="gouCar">
+                <img src="images/gouimg.png" width="19" height="20" style="position:relative;top:6px;"/>&nbsp;
+                <strong class="red">0</strong>&nbsp;件&nbsp;
+                <a href="/login">购物车</a>
+                <strong class="red">￥0.0</strong>
+                <a href="/login">去结算</a>
+            </div>
+            <div class="myChunlv">
+                <!--<a th:href="@{/findUserByid(id=${session.login.getId()})}">-->
+                <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img-->
+                <!--src="images/mychunlv.jpg" width="112" height="34"/></a>-->
+            </div><!--myChunlv/-->
+        </div><!--gouwuche/-->
+    </div><!--lsg/-->
+    <div class="pnt">
+        <div class="pntLeft">
+            <h2 class="Title">所有商品分类
+            </h2>
+        </div><!--pntLeft/-->
+        <div class="pntRight">
+            <ul class="nav">
+                <li class="navCur"><a href="/index">商城首页</a></li>
+                <li><a href="/findAgent1">促销中心</a></li>
+                <li><a href="/login">会员中心</a></li>
+                <li><a href="/help1">帮助中心</a></li>
+                <div class="clears"></div>
+                <div class="phone">TEL：021-12345678</div>
+            </ul><!--nav/-->
+        </div><!--pntRight/-->
+        <div class="clears"></div>
+    </div><!--pnt/-->
+    <div class="positions">
+        当前位置：<a href="/index">首页</a> &gt; <a href="/help1" class="posCur">帮助中心</a>
+    </div><!--positions/-->
+    <div class="cont">
+        <div class="contLeft" id="contLeft">
+            <h3 class="leftTitle">帮助中心</h3>
+            <dl class="helpNav">
+                <dt class="help4">关于我们</dt>
+                <dd><a href="/contact1">联系方式</a></dd>
+                <dd><a href="/about1">企业简介</a></dd>
+            </dl><!--helpNav/-->
+        </div><!--contLeft/-->
+        <div class="contRight">
+            <h4 class="gouLiu">企业简介</h4>
+            <div class="helpPar">
+                &nbsp;&nbsp;&nbsp;&nbsp;上海17实业有限公司是一家集设计、开发、生产于一体的企业，主要生产一次性纸餐具、一次性纸杯（广告纸杯、咖啡
+                杯、奶茶杯、雪糕杯）等产品。几年来，公司在全体200多位员工共同努力下，本着“以信为本、以诚待人、以新拓展、以质 取胜”的企业宗旨，大胆创新，不断进取，逐渐成为引领一次性纸制品发展潮流中的领先企业。
+                <br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;目前公司拥有德国海德堡CP2000四色胶印机、宽幅柔版印刷机、进口全自动高速纸杯成型机、台湾模切机等一系列具有国
+                际先进水平的生产设备，以满足不同客户的需要。本公司本着“诚信为本、质量第一、开创新品、精益求精”的企业精神，致 力为用户提供至善至美的服务，欢迎垂询。
+                <br/>
+                公司的承诺：
+                　 &nbsp;&nbsp;&nbsp;&nbsp; 对工作：提供高质量的产品，传播优质理念，迅速反应，马上行动。
+                　 &nbsp;&nbsp;&nbsp;&nbsp; 对客户：合作双赢，共同发展。
+                　 &nbsp;&nbsp;&nbsp;&nbsp; 对员工：教育培训，成就人生。
+                　 &nbsp;&nbsp;&nbsp;&nbsp; 对社会：依法经营，保护生态，回馈大众。
+                <br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;环保，是我们最关注的问题之一！远传在生产应用中，大量采购使用环保纸张，环保型油墨。并在生产中重点对废料、回料进
+                行有效处理。保证产品符合国家环保标准，符合食品卫生标准。
+            </div><!--helpPar-->
+        </div><!--contRight/-->
+        <div class="clears"></div>
+    </div><!--cont/-->
+    <div class="inHelp">
+        <div class="inHLeft">
+            <h4>帮助中心</h4>
+            <ul class="inHeList">
+                <li><a href="/help1">购物指南</a></li>
+                <li><a href="/help1">支付方式</a></li>
+                <li><a href="/help1">售后服务</a></li>
+                <li><a href="/about1">企业简介</a></li>
+                <div class="clears"></div>
+            </ul><!--inHeList/-->
+        </div><!--inHLeft/-->
+        <div class="inHLeft">
+            <h4>会员服务</h4>
+            <ul class="inHeList">
+                <li><a href="/reg">会员注册</a></li>
+                <li><a href="/login">会员登录</a></li>
+                <li><a href="/login">购物车</a></li>
+                <li><a href="/login">我的订单</a>
+                </li>
+                <div class="clears"></div>
+            </ul><!--inHeList/-->
+        </div><!--inHLeft/-->
+        <div class="inHRight">
+            <h4>全国统一免费服务热线</h4>
+            <div class="telBox">400-0000-0000</div>
+            <div class="weibo">
+                <wb:follow-button uid="2991975565" type="red_1" width="67" height="24"></wb:follow-button>
+            </div>
+        </div><!--inHRight/-->
+        <div class="clears"></div>
+    </div><!--inHelp/-->
+    <div class="footer">
+        <p>
+            <a href="#">进入17官网</a>&nbsp;|&nbsp;
+            <a href="../index.html">商城首页</a>&nbsp;|&nbsp;
+            <a href="product.html">促销中心</a>&nbsp;|&nbsp;
+            <a href="order.html">我的订单</a>&nbsp;|&nbsp;
+            <a href="new.html">新闻动态</a>&nbsp;|&nbsp;
+            <a href="../login.html">会员中心</a>&nbsp;|&nbsp;
+            <a href="help.htmll">帮助中心</a>
+        </p>
+        <p>
+            版权所有：南昌17实业有限公司 版权所有 夏天南、黄熊伟 <a href="http://www.mycodes.net/"
+                                            target="_blank"></a>
+        </p>
+    </div><!--footer/-->
+</div><!--mianCont/-->
+<a href="#" class="backTop">&nbsp;</a>
+</body>
+<script type="text/javascript">
+    $(function () {
+        $("#zhibei").click(function () {
+            var zhibei = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei + "&pageNum=" + 1;
+        });
+        $("#zhibei1").click(function () {
+            var zhibei1 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei1 + "&pageNum=" + 1;
+        });
+        $("#zhibei2").click(function () {
+            var zhibei2 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei2 + "&pageNum=" + 1;
+        });
+        $("#zhibei3").click(function () {
+            var zhibei3 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei3 + "&pageNum=" + 1;
+        });
+        $("#zhibei4").click(function () {
+            var zhibei4 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei4 + "&pageNum=" + 1;
+        });
+        $("#zhibei5" +
+                "").click(function () {
+            var zhibei5 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei5 + "&pageNum=" + 1;
+        });
+        $("#zhibei6").click(function () {
+            var zhibei6 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei6 + "&pageNum=" + 1;
+        });
+        $("#zhibei7").click(function () {
+            var zhibei7 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei7 + "&pageNum=" + 1;
+        });
+        $("#zhibei8").click(function () {
+            var zhibei8 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei8 + "&pageNum=" + 1;
+        });
+        $("#zhibei9").click(function () {
+            var zhibei9 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei9 + "&pageNum=" + 1;
+        });
+        $("#zhibei10").click(function () {
+            var zhibei10 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei10 + "&pageNum=" + 1;
+        });
+        $("#zhibei11").click(function () {
+            var zhibei11 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei11 + "&pageNum=" + 1;
+        });
+        $("#Dindan").click(function () {
+            var Dindan = $(this).prev().val();
+            window.location = "/findCommodity?user_id=" + Dindan + "&pageNum=" + 1;
+        });
+        $("#Dindan1").click(function () {
+            var Dindan1 = $(this).prev().val();
+            window.location = "/findCommodity?user_id=" + Dindan1 + "&pageNum=" + 1;
+        });
+
+        var names = $("#names").val();
+        var pageNum = $("#pageNum").html();
+        var totalPageCount = $("#totalPageCount").html();
+        $("#index").click(function () {
+            window.location = "/findBeizhi?name=" + names;
+        });
+        $("#top").click(function () {
+            window.location = "/findBeizhi?pageNum=" + parseInt(pageNum - 1) + "&name=" + names;
+        });
+        $("#bottom").click(function () {
+            window.location = "/findBeizhi?pageNum=" + (parseInt(pageNum) + 1) + "&name=" + names;
+        });
+        $("#off").click(function () {
+            window.location = "/findBeizhi?pageNum=" + totalPageCount + "&name=" + names;
+        });
+        if (pageNum < = 1) {
+            $("#index").attr("disabled", "disabled");
+            $("#bottom").removeAttr("disabled", "disabled");
+            $("#top").attr("disabled", "disabled");
+            $("#off").removeAttr("disabled", "disabled");
+        } else if (pageNum >= totalPageCount) {
+            $("#index").removeAttr("disabled", "disabled");
+            $("#bottom").attr("disabled", "disabled");
+            $("#top").removeAttr("disabled", "disabled");
+            $("#off").attr("disabled", "disabled");
+        }
+    });
+</script>
+</html>

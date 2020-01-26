@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhsj.Shopping.dao.User.AdminMapper">
+    <!--系统管理员登录-->
+    <select id="adminLogin" parameterType="Admin" resultType="Admin">
+     SELECT * FROM sp_admin WHERE name=#{name} AND pwd=#{pwd};
+    </select>
+
+    <!--订单管理查询-->
+    <select id="findPicture" resultType="CommodityCustom">
+          SELECT DISTINCT c.`name` AS receiver_name,o.`sp_id`,o.`name`,g.`tb_did`,c.`did`,o.`vlp`,(SELECT t.`payment` FROM tb_type AS t WHERE t.`id`=c.`payment_id`) AS payment ,c.`date`,c.`status_id`,o.`number`,o.`postage`,(o.`vlp`+o.`postage`) AS total,o.`distribution`
+          FROM sp_order AS o,sp_gl AS g,tb_category AS c,tb_type AS t
+         WHERE o.`id`=g.`tb_did` AND g.`order_id`=c.`did`
+    </select>
+
+    <!--订单查询-->
+    <select id="findPictureByName" resultType="CommodityCustom" parameterType="Commodity">
+        SELECT DISTINCT c.`name` AS receiver_name,o.`sp_id`,o.`name`,g.`tb_did`,c.`did`,o.`vlp`,
+        (SELECT t.`payment` FROM tb_type AS t WHERE t.`id`=c.`payment_id`) AS payment ,c.`date`,c.`status_id`,o.`number`,o.`postage`,(o.`vlp`+o.`postage`) AS total,o.`distribution`
+        FROM sp_order AS o,sp_gl AS g,tb_category AS c,tb_type AS t
+        <where>
+            o.`id`=g.`tb_did` AND g.`order_id`=c.`did`
+            <if test="name!=null and name!=''">
+                AND o.`name` LIKE CONCAT('%',#{name},'%')
+            </if>
+            <if test="distribution!=null and distribution!=''">
+                AND o.distribution LIKE CONCAT('%',#{distribution},'%')
+            </if>
+        </where>
+    </select>
+    <!--查询商品信息-->
+    <select id="SelectOrder" parameterType="Order" resultType="Order">
+        SELECT * FROM `sp_order`
+    </select>
+    <!--查询用户信息-->
+    <select id="SelectInformation" parameterType="User" resultType="User">
+        SELECT * FROM `tb_user`
+    </select>
+    <!--按ID查询商品信息-->
+    <select id="SelectOrderById" parameterType="int" resultType="Order">
+        SELECT * FROM   `sp_order` WHERE id=#{id}
+    </select>
+    <!--商品信息添加-->
+    <insert id="addOreder" parameterType="Order">
+         INSERT INTO sp_order (sp_id,city,cid,`name`,stype,sml,bag,vlp,stock,postage,mail,url,distribution)
+        VALUES(#{sp_id},#{city},#{cid},#{name},#{stype},#{sml},#{bag},#{vlp},#{stock},#{postage},#{mail},#{url},#{distribution})
+    </insert>
+
+    <!--按id查询商品信息-->
+    <select id="findSelectOrderById" parameterType="int" resultType="Order">
+        SELECT * FROM sp_order WHERE id=#{id}
+    </select>
+
+    <update id="OrderUpdate" parameterType="Order">
+       UPDATE sp_order SET sp_id=#{sp_id},city=#{city},name=#{name},stype=#{stype},sml=#{sml},bag=#{bag},vlp=#{vlp},stock=#{stock}
+        ,postage=#{postage},mail=#{mail},url=#{url},distribution=#{distribution}  where id=#{id}
+    </update>
+
+    <!--多条件查询物品信息-->
+    <select id="findQueryOrder" resultType="Order" parameterType="Order">
+        SELECT * FROM `sp_order`
+        <where>
+            <if test="name!=null and name!=''">
+                AND `NAME` LIKE CONCAT('%',#{name},'%')
+            </if>
+            <if test="distribution!=null and  distribution!=''">
+                AND `distribution` LIKE CONCAT('%',#{distribution},'%')
+            </if>
+        </where>
+
+    </select>
+    <!--删除商品信息-->
+    <delete id="DeleteOrder" parameterType="Order">
+        DELETE  FROM `sp_order` WHERE  id=#{id}
+    </delete>
+    <!--删除用户-->
+    <delete id="DropUser" parameterType="User">
+        DELETE  FROM `tb_user`  WHERE id=#{id}
+    </delete>
+    <!--多条件查询用户信息-->
+    <select id="findUserCont" resultType="User" parameterType="User">
+        SELECT * FROM `tb_user`
+        <where>
+            <if test="username!=null and username!=''">
+                AND username LIKE CONCAT('%',#{username},'%')
+            </if>
+            <if test="receiver_city!=null and receiver_city=''">
+                AND receiver_city LIKE CONCAT('%',#{receiver_city},'%')
+            </if>
+        </where>
+    </select>
+    <!--按ID查询用户信息-->
+    <select id="findUserById" parameterType="int" resultType="User">
+    SELECT * FROM `tb_user` WHERE  id=#{id}
+    </select>
+
+
+</mapper>

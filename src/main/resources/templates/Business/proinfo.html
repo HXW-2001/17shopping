@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>17商城</title>
+    <link type="text/css" href="css/css.css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/js.js"></script>
+    <script src="js/MagicZoom.js" type="text/javascript"></script>
+    <!--<script type="text/javascript">-->
+        <!--$(function () {-->
+            <!--jQuery("#bbbb").click(function () {-->
+                <!--var user_id = $("#user_id").val();-->
+                <!--var xname = $("#xname").val();-->
+                <!--var city = $("#city").val();-->
+                <!--var cid = $("#cid").val();-->
+                <!--var name = $("#name").val();-->
+                <!--var stype = $("#stype").val();-->
+                <!--var sml = $("#sml").val();-->
+                <!--var bag = $("#bag").val();-->
+                <!--var vlp = $("#vlp").val();-->
+                <!--var stock = $("#stock").val();-->
+                <!--var number1 = $("#number1").val();-->
+                <!--var postage = $("#postage").val();-->
+                <!--var mail = $("#mail").val();-->
+                <!--var url = $("#url").val();-->
+                <!--var sp_id = $("#sp_id").val();-->
+                <!--var id = $(".id").val();-->
+                <!--var order_id = $("#order_id").val();-->
+                <!--var distribution = $("#distribution").val();-->
+                <!--var userId = $("#userId").val();-->
+                <!--$.ajax({-->
+                    <!--"url": "addGwc",//请求的url-->
+                    <!--"type": "GET",//请求类型-->
+                    <!--"data": {-->
+                        <!--"userId": userId,-->
+                        <!--"user_id": user_id,-->
+                        <!--"xname": xname,-->
+                        <!--"sp_id": sp_id,-->
+                        <!--"city": city,-->
+                        <!--"cid": cid,-->
+                        <!--"name": name,-->
+                        <!--"stype": stype,-->
+                        <!--"sml": sml,-->
+                        <!--"bag": bag,-->
+                        <!--"vlp": vlp,-->
+                        <!--"stock": stock,-->
+                        <!--"number": number1,-->
+                        <!--"postage": postage,-->
+                        <!--"mail": mail,-->
+                        <!--"url": url,-->
+                        <!--"distribution": distribution,-->
+                        <!--"id": id,-->
+                        <!--"order_id": order_id-->
+                    <!--},-->
+                    <!--"dataType": "json",//ajax接口（请求url）返回的数据类型-->
+                    <!--success: function (data) {//data：返回数据（json对象）-->
+                        <!--alert(1);-->
+                        <!--if (data != null) {-->
+                            <!--$("#Gwccount").html(data.count);-->
+                            <!--$("#sumPrice").html(data.totals);-->
+                        <!--}-->
+
+                    <!--}-->
+                <!--});-->
+            <!--});-->
+        <!--});-->
+    <!--</script>-->
+    <script type="text/javascript">
+        $(function () {
+            jQuery("#bbbb").click(function () {
+                var user_id = $("#user_id").val();
+                $.ajax({
+                    "url": "findCount1",//请求的url
+                    "type": "GET",//请求类型
+                    "data": {
+                        "id": user_id
+                    },
+                    "dataType": "json",//ajax接口（请求url）返回的数据类型
+                    "async": "false",
+                    "success": function (data) {//data：返回数据（json对象）
+                        if (data != null) {
+                        }
+                    },
+                    success: function (data) {
+                        if (data == null) {
+                            alert('查询失败');
+                        }
+                    },
+                });
+            })
+        });
+    </script>
+</head>
+<body>
+<div class="mianCont">
+    <div class="top">
+
+        <span th:text="'您好：'+${session.login.getUsername()+' 欢迎来到17商城'}"></span>&nbsp;&nbsp; <strong class="red"><a
+            href="/login" style="color:red">[退出]</a></strong>
+     <span class="topRight">
+    <a href="/order">我的订单</a>&nbsp;|
+    <a th:href="@{/findUserByid(
+    id=${session.login.getId()})}">会员中心</a>&nbsp;|
+    <a href="/contact">联系我们</a>
+   </span>
+    </div><!--top/-->
+    <div class="lsg">
+        <h1 class="logo"><a href="/main"><img src="images/logo.png" width="217" height="90"/></a></h1>
+        <form action="/findShangPing" method="post" class="subBox">
+            <div class="subBoxDiv">
+                <input type="text" name="name" class="subLeft"/>
+                <input type="image" src="images/subimg.png" width="63" height="34" class="sub"/>
+                <div class="hotWord">
+                    热门搜索：
+                    <a href="proinfo.html">杯子</a>&nbsp;
+                    <a href="proinfo.html">餐具</a> &nbsp;
+                    <a href="proinfo.html">纸袋</a>&nbsp;
+                    <a href="proinfo.html">纸碟</a> &nbsp;
+                </div><!--hotWord/-->
+            </div><!--subBoxDiv/-->
+        </form><!--subBox/-->
+        <div class="gouwuche">
+            <div class="gouCar">
+                <th:if th:if="${session.gwcCustom!=null}">
+                    <div class="gouCar">
+                        <img src="images/gouimg.png" width="19" height="20" style="position:relative;top:6px;"/>&nbsp;
+                        <strong class="red" th:text="${session.gwcCustom.count}">0</strong>&nbsp;件&nbsp;
+                        <a th:href="@{/findGwc(user_id=${session.login.getId()})}">购物车</a>
+                        <strong class="red" th:text="${session.gwcCustom.totals}"> ￥0.0</strong>
+                        <a th:href="@{/findGwcQd1(user_id=${session.login.getId()})}">去结算</a>
+                    </div>
+                </th:if>
+                <th:if th:if="${session.gwcCustom==null}">
+                    <div class="gouCar">
+                        <img src="images/gouimg.png" width="19" height="20" style="position:relative;top:6px;"/>&nbsp;
+                        <strong class="red">0</strong>&nbsp;件&nbsp;
+                        <a href="javascript:void(0)">购物车</a>
+                        <strong class="red"> ￥0.0</strong>
+                        <a href="javascript:void(0)">去结算</a>
+                    </div>
+                </th:if>
+            </div><!--gouCar/-->
+            <div class="myChunlv">
+                <a th:href="@{/findUserByid(id=${session.login.getId()})}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img
+                        src="images/mychunlv.jpg" width="112" height="34"/></a>
+            </div><!--myChunlv/-->
+        </div><!--gouwuche/-->
+    </div><!--lsg/-->
+    <div class="pnt">
+        <div class="pntLeft">
+            <h2 class="Title">所有商品分类
+                <ul class="InPorNav">
+                </ul>
+            </h2>
+        </div><!--pntLeft/-->
+        <div class="pntRight">
+            <ul class="nav">
+                <li class="navCur"><a href="/main">商城首页</a></li>
+                <li><a href="/findAgent">促销中心</a></li>
+                <li><a th:href="@{/findUserByid(id=${session.login.getId()})}">会员中心</a></li>
+                <li><a href="/help">帮助中心</a></li>
+                <div class="clears"></div>
+                <div class="phone">TEL：021-12345678</div>
+            </ul><!--nav/-->
+        </div><!--pntRight/-->
+        <div class="clears"></div>
+    </div><!--pnt/-->
+    <div class="positions">
+        当前位置：<a href="/main">首页</a> &gt; <a href="#" class="posCur">促销商品</a>
+    </div><!--positions/-->
+    <div class="cont">
+        <div class="contLeft">
+            <ul class="leftPorNav">
+                <li><input type="hidden" value="纸杯"/><a href="javascript:void(0)" id="zhibei">纸杯系列</a>
+                </li>
+                <li><input type="hidden" value="透明"/><a href="javascript:void(0)" id="zhibei1">PET系列</a>
+                </li>
+                <li><input type="hidden" value="杯"/><a href="javascript:void(0)" id="zhibei2">饮品杯配套系列</a>
+                </li>
+                <li><input type="hidden" value="纸碟"/><a href="javascript:void(0)" id="zhibei3">纸浆环保餐具系列</a>
+                </li>
+                <li><input type="hidden" value="餐"/><a href="javascript:void(0)" id="zhibei4">纸餐盒系列</a>
+                </li>
+                <li><input type="hidden" value="餐具"/><a href="javascript:void(0)" id="zhibei5">刀叉勺餐具</a>
+                </li>
+                <li><input type="hidden" value="纸"/><a href="javascript:void(0)" id="zhibei6">生活用纸</a>
+                </li>
+                <li><input type="hidden" value="袋"/><a href="javascript:void(0)" id="zhibei7">纸袋/环保打包袋</a>
+                </li>
+            </ul><!--InPorNav/-->
+        </div><!--contLeft/-->
+        <div class="contRight" style="border:0;">
+            <div class="proBox">
+                <div id="tsShopContainer">
+                    <div id="tsImgS"><a th:href="${byId.url}" title="Images" class="MagicZoom" id="MagicZoom"><img
+                            width="300" height="300" th:src="${byId.url}"/></a></div>
+                    <div id="tsPicContainer">
+                        <div id="tsImgSArrL" onclick="tsScrollArrLeft()"></div>
+                        <div id="tsImgSCon">
+                            <ul>
+                                <li onclick="showPic(0)" rel="MagicZoom" class="tsSelectImg"><img height="42" width="42"
+                                                                                                  th:src="${byId.url}"
+                                                                                                  th:tsImgS="${byId.url}"/>
+                                </li>
+                                <li onclick="showPic(1)" rel="MagicZoom"><img height="42" width="42"
+                                                                              th:src="${byId.url}"
+                                                                              th:tsImgS="${byId.url}"/></li>
+                            </ul>
+                        </div>
+                        <div id="tsImgSArrR" onclick="tsScrollArrRight()"></div>
+                    </div>
+                    <img class="MagicZoomLoading" width="16" height="16" src="images/loading.gif" alt="Loading..."/>
+                    <script src="js/ShopShow.js"></script>
+                </div><!--tsShopContainer/-->
+                <div class="proBoxRight">
+                    <h3 class="proTitle">
+                        <td th:text="${byId.namey}">17 饮料杯</td>
+                    </h3>
+                    <div>编号：
+                        <td th:text="${byId.sp_id}">334011</td>
+                    </div>
+                    <div>毫升：
+                        <td th:text="${byId.sml}">250ml</td>
+                    </div>
+                    <div>单位：
+                        <td th:text="${byId.bag}"> 5只/袋 8袋/箱</td>
+                    </div>
+                    <div>会员价：<strong class="red">
+                        <td th:text="'￥'+${byId.vlp}">¥7.20</td>
+                    </strong></div>
+                    <div>库存：<strong class="red">
+                        <td th:text="${byId.stocks}"> [有货] 从上海发货</td>
+                    </strong></div>
+                    <div class="shuliang2">
+                        数量： <input type="text" name="number" id="number" value="1"/>
+                    </div><!--shuliang2/-->
+                    <div>邮费：<strong class="red">
+                        <td th:text="${byId.postages}">不包邮：￥10</td>
+                    </strong></div>
+                    <div>配送：<strong class="red">
+                        <td th:text="${byId.distribution}">不包邮：￥10</td>
+                    </strong></div>
+                    <form action="/addGwc" method="post">
+                        <div class="gc">
+                            <a th:href="@{/UpdatePrice(id=${byId.id},user_id=${session.login.getId()},number=1)}"><img
+                                    src="images/goumai.png" width="117" height="36"/></a>&nbsp;&nbsp;
+                            <input type="hidden" name="user_id" th:value="${session.login.getId()}">
+                            <input type="hidden" name="xname" th:value="${session.login.getUsername()}">
+                            <input type="hidden" name="sp_id" th:value="${byId.sp_id}">
+                            <input type="hidden" name="city" th:value="${byId.city}">
+                            <input type="hidden" name="cid" th:value="${byId.cid}">
+                            <input type="hidden" name="name" th:value="${byId.name}">
+                            <input type="hidden" name="stype" th:value="${byId.stype}">
+                            <input type="hidden" name="userId" th:value="${session.login.id}">
+                            <input type="hidden" name="sml" th:value="${byId.sml}">
+                            <input type="hidden" name="bag" th:value="${byId.bag}">
+                            <input type="hidden" name="vlp" th:value="${byId.vlp}">
+                            <input type="hidden" name="stock" th:value="${byId.stock}">
+                            <input type="hidden" name="number" th:value="1">
+                            <input type="hidden" name="postage" th:value="${byId.postage}">
+                            <input type="hidden" name="mail" th:value="${byId.mail}">
+                            <input type="hidden" name="url" th:value="${byId.url}">
+                            <input type="hidden" name="id" th:value="${byId.id}">
+                            <input type="hidden" name="distribution" th:value="${byId.distribution}">
+                            <input type="hidden" name="order_id" th:value="${byId.id}">
+                            <button type="submit" style="background: none;border: none;"><img  id="bbbb" src="images/shoucang.png" width="117" height="36"/>
+                            </button>
+                        </div>
+                    </form><!--gc/-->
+                </div><!--proRight/-->
+                <div class="clears"></div>
+            </div><!--proBox/-->
+            <ul class="fangyuan">
+                <li>商品描述</li>
+                <li>商品参数</li>
+                <li>商品评论</li>
+                <li>商品晒图</li>
+                <div class="clears"></div>
+            </ul><!--fangyuan/-->
+            <div class="fangList">
+                <div class="fangPar">
+                    挺好的
+                </div><!--fangPar/-->
+                <img src="images/ban1.jpg" width="756" height="310"/>
+            </div><!--fangList/-->
+            <div class="fangList">
+                商品参数
+            </div><!--fangList/-->
+            <div class="fangList">
+                商品评论
+            </div><!--fangList/-->
+            <div class="fangList">
+                <img th:src="${byId.url}" width="132" height="129"/>&nbsp;&nbsp;&nbsp;&nbsp;<img th:src="${byId.url}"
+                                                                                                 width="132"
+                                                                                                 height="129"/>
+            </div><!--fangList/-->
+        </div><!--contRight/-->
+        <div class="clears"></div>
+    </div><!--cont/-->
+    <div class="inHelp">
+        <div class="inHLeft">
+            <h4>帮助中心</h4>
+            <ul class="inHeList">
+                <li><a href="/help.">购物指南</a></li>
+                <li><a href="/help">支付方式</a></li>
+                <li><a href="/help">售后服务</a></li>
+                <li><a href="/help">企业简介</a></li>
+                <div class="clears"></div>
+            </ul><!--inHeList/-->
+        </div><!--inHLeft/-->
+        <div class="inHLeft">
+            <h4>会员服务</h4>
+            <ul class="inHeList">
+                <li><a href="/reg">会员注册</a></li>
+                <li><a href="/login">会员登录</a></li>
+                <li><a href="/order1">购物车</a></li>
+                <li><a href="/order">我的订单</a></li>
+                <div class="clears"></div>
+            </ul><!--inHeList/-->
+        </div><!--inHLeft/-->
+        <div class="inHRight">
+            <h4>全国统一免费服务热线</h4>
+            <div class="telBox">400-0000-0000</div>
+            <div class="weibo">
+                <wb:follow-button uid="2991975565" type="red_1" width="67" height="24"></wb:follow-button>
+            </div>
+        </div><!--inHRight/-->
+        <div class="clears"></div>
+    </div><!--inHelp/-->
+    <p>
+        <a href="#">进入17官网</a>&nbsp;|&nbsp;
+        <a href="../index.html">商城首页</a>&nbsp;|&nbsp;
+        <a href="product.html">促销中心</a>&nbsp;|&nbsp;
+        <a href="order.html">我的订单</a>&nbsp;|&nbsp;
+        <a href="new.html">新闻动态</a>&nbsp;|&nbsp;
+        <a href="../login.html">会员中心</a>&nbsp;|&nbsp;
+        <a href="help.htmll">帮助中心</a>
+    </p>
+    <p>
+        版权所有：南昌17实业有限公司 版权所有 夏天南、黄熊伟 <a href="http://www.mycodes.net/"
+                                                                   target="_blank"></a>
+    </p>
+</div><!--footer/-->
+</div><!--mianCont/-->
+<script type="text/javascript">
+    $(function () {
+        $("#zhibei").click(function () {
+            var zhibei = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei + "&pageNum=" + 1;
+        });
+        $("#zhibei1").click(function () {
+            var zhibei1 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei1 + "&pageNum=" + 1;
+        });
+        $("#zhibei2").click(function () {
+            var zhibei2 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei2 + "&pageNum=" + 1;
+        });
+        $("#zhibei3").click(function () {
+            var zhibei3 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei3 + "&pageNum=" + 1;
+        });
+        $("#zhibei4").click(function () {
+            var zhibei4 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei4 + "&pageNum=" + 1;
+        });
+        $("#zhibei5" +
+                "").click(function () {
+            var zhibei5 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei5 + "&pageNum=" + 1;
+        });
+        $("#zhibei6").click(function () {
+            var zhibei6 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei6 + "&pageNum=" + 1;
+        });
+        $("#zhibei7").click(function () {
+            var zhibei7 = $(this).prev().val();
+            window.location = "/findBeizhi?name=" + zhibei7 + "&pageNum=" + 1;
+        });
+    });
+</script>
+<a href="#" class="backTop">&nbsp;</a>
+</body>
+</html>
